@@ -13,7 +13,10 @@ class PinDetails extends StatelessWidget {
       body: Column(
         children: [
           Text(pin.address),
-          MapWidget(currentPosition: pin),
+          MapWidget(
+            currentPosition: pin,
+            zoom: 16,
+          ),
         ],
       ),
     );

@@ -7,8 +7,12 @@ const urlTemplate = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 
 class MapWidget extends StatefulWidget {
   MapWidget(
-      {super.key, required this.currentPosition, this.setUpdateMapCallback});
+      {super.key,
+      required this.currentPosition,
+      this.setUpdateMapCallback,
+      this.zoom});
   Pin currentPosition;
+  double? zoom;
   Function(Function(Pin pin) function)? setUpdateMapCallback;
 
   @override
@@ -52,7 +56,7 @@ class MapWidgetState extends State<MapWidget> {
         options: MapOptions(
             center: LatLng(widget.currentPosition.latitude,
                 widget.currentPosition.longitude),
-            zoom: 10.0,
+            zoom: widget.zoom ?? 10.0,
             maxZoom: 18,
             minZoom: 1),
         mapController: _mapController,

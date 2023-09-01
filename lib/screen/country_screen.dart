@@ -20,8 +20,6 @@ class CountryScreen extends StatefulWidget {
 }
 
 class _CountryScreenState extends State<CountryScreen> {
-  List<Pin> places = [];
-
   _chooseAPlace() async {
     Pin? pin =
         await Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
@@ -36,12 +34,10 @@ class _CountryScreenState extends State<CountryScreen> {
         int cityId = await _insertOrRetrieveCityId(pin, regionId);
 
         await _insertOrRetrievePinId(pin, cityId);
+        setState(() {});
       } catch (err) {
         print(err);
       }
-      setState(() {
-        places.add(pin);
-      });
     }
   }
 
@@ -90,7 +86,7 @@ class _CountryScreenState extends State<CountryScreen> {
     if (existingCountry != null) {
       return existingCountry.id!;
     }
-    Country country = Country(name: pin.countryName);
+    Country country = Country(name: pin.countryName, numberOfRegions: 0);
     int countryId = await countryDao.insert(country);
     return countryId;
   }
@@ -106,9 +102,16 @@ class _CountryScreenState extends State<CountryScreen> {
   }
 
   Future<List<Country>> _loadCountries() async {
-    CountryDao countryDao = CountryDao();
     try {
-      return await countryDao.list();
+      CountryDao countryDao = CountryDao();
+      List<Country> countries = await countryDao.list();
+      for (Country country in countries) {
+        int? regionNumber = await countryDao.getRegionsCount(country.name);
+        if (regionNumber != null) {
+          country.numberOfRegions = regionNumber;
+        }
+      }
+      return countries;
     } catch (err) {
       print(err);
       return [];
@@ -122,11 +125,20 @@ class _CountryScreenState extends State<CountryScreen> {
           return Card(
             child: Row(
               children: [
-                InkWell(
+                Expanded(
+                  child: InkWell(
                     onTap: () {
                       _goToRegions(snapshot.data![index]);
                     },
-                    child: Card(child: Text(snapshot.data![index].name)))
+                    child: ListTile(
+                      title: Text(
+                        snapshot.data![index].name,
+                      ),
+                      trailing: Text(
+                          "(${snapshot.data![index].numberOfRegions.toString()})"),
+                    ),
+                  ),
+                ),
               ],
             ),
           );

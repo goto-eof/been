@@ -29,9 +29,27 @@ class CountryDao {
       return null;
     }
     return Country(
-        name: maps[0]["name"],
-        id: maps[0]["id"],
-        insertDateTime: DateTime.parse(maps[0]["insert_date_time"]));
+      name: maps[0]["name"],
+      id: maps[0]["id"],
+      numberOfRegions: 0,
+      insertDateTime: DateTime.parse(
+        maps[0]["insert_date_time"],
+      ),
+    );
+  }
+
+  Future<int?> getRegionsCount(final String countryName) async {
+    DB db = DB();
+    final database = await db.getDatabaseConnection();
+
+    final List<Map<String, dynamic>> maps = await database.rawQuery(
+        "select count(1) as num from region, country where region.country_id = country.id and country.name like ?",
+        [countryName]);
+
+    if (maps.isEmpty) {
+      return null;
+    }
+    return maps[0]["num"];
   }
 
   Future<List<Country>> list() async {
@@ -43,6 +61,7 @@ class CountryDao {
 
     return List.generate(maps.length, (i) {
       return Country(
+        numberOfRegions: 0,
         id: maps[i]['id'],
         name: maps[i]['name'],
         insertDateTime: DateTime.parse(
