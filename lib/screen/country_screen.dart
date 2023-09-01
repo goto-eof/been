@@ -95,14 +95,15 @@ class _CountryScreenState extends State<CountryScreen> {
     return countryId;
   }
 
-  _goToRegions(Country country) {
-    Navigator.of(context).push(
+  _goToRegions(Country country) async {
+    await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => RegionScreen(
           country: country,
         ),
       ),
     );
+    setState(() {});
   }
 
   Future<List<Country>> _loadCountries() async {
@@ -469,7 +470,7 @@ class _CountryScreenState extends State<CountryScreen> {
                         fontSize: 52),
                   ),
                   const Text(
-                    "Coutnries",
+                    "Countries",
                     style: TextStyle(
                       color: Color.fromARGB(255, 149, 54, 244),
                     ),

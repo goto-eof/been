@@ -26,10 +26,11 @@ class _CityScreenStatus extends State<CityScreen> {
         itemBuilder: (BuildContext ctx, int index) {
           return Card(
             child: InkWell(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
+              onTap: () async {
+                await Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => PinScreen(city: snapshot.data![index]),
                 ));
+                setState(() {});
               },
               child: ListTile(
                 leading: const Icon(Icons.square),

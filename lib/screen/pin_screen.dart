@@ -30,10 +30,15 @@ class _PinScreenState extends State<PinScreen> {
         itemCount: snapshot.data.length,
         itemBuilder: (context, index) => Card(
           child: InkWell(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => PinDetails(pin: snapshot.data![index]),
-              ));
+            onTap: () async {
+              bool? deleted = await Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => PinDetails(pin: snapshot.data![index]),
+                ),
+              );
+              if (deleted != null && deleted) {
+                setState(() {});
+              }
             },
             child: ListTile(
               leading: const Icon(Icons.square),

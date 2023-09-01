@@ -1,4 +1,3 @@
-
 import 'package:been/model/pin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -58,7 +57,7 @@ class MapWidgetState extends State<MapWidget> {
           options: MapOptions(
               center: LatLng(widget.currentPosition.latitude,
                   widget.currentPosition.longitude),
-              zoom: widget.zoom ?? 10.0,
+              zoom: widget.zoom ?? 2.0,
               maxZoom: 18,
               minZoom: 1),
           mapController: _mapController,

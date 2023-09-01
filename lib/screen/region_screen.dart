@@ -39,14 +39,15 @@ class _RegionScreenState extends State<RegionScreen> {
         itemBuilder: (BuildContext ctx, int index) {
           return Card(
             child: InkWell(
-              onTap: () {
-                Navigator.of(context).push(
+              onTap: () async {
+                await Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => CityScreen(
                       region: snapshot.data[index],
                     ),
                   ),
                 );
+                setState(() {});
               },
               child: ListTile(
                 leading: const Icon(Icons.square),
