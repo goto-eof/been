@@ -25,7 +25,7 @@ class _SearchAddressWidgetState extends State<SearchAddressWidget> {
     _debounce = Timer(const Duration(milliseconds: 1000), () async {
       try {
         String url =
-            'https://nominatim.openstreetmap.org/search?q=$value&format=json&polygon_geojson=1&addressdetails=1';
+            'https://nominatim.openstreetmap.org/search?q=$value&format=json&polygon_svg=0&addressdetails=1';
         var response = await http.get(Uri.parse(url));
         var decodedResponse =
             jsonDecode(utf8.decode(response.bodyBytes)) as List<dynamic>;
@@ -33,6 +33,9 @@ class _SearchAddressWidgetState extends State<SearchAddressWidget> {
             .map(
               (e) => Pin(
                 address: e['display_name'],
+                city: e["address"]["city"],
+                region: e["address"]["state"],
+                country: e["address"]["country"],
                 latitude: double.parse(e['lat']),
                 longitude: double.parse(
                   e['lon'],
@@ -64,7 +67,7 @@ class _SearchAddressWidgetState extends State<SearchAddressWidget> {
         controller: _searchController,
         focusNode: _focusNode,
         decoration: InputDecoration(
-          hintText: "Input a city here",
+          hintText: "Input a city",
           border: inputBorder,
           focusedBorder: inputFocusBorder,
         ),

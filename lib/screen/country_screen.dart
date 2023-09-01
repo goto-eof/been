@@ -58,7 +58,7 @@ class _CountryScreenState extends State<CountryScreen> {
   Future<int> _insertOrRetrieveCityId(Pin pin, int regionId) async {
     CityDao cityDao = CityDao();
     City? existingCity =
-        await cityDao.getByRegionNameAndRegionId(pin.regionName, regionId);
+        await cityDao.getByCityNameAndRegionId(pin.city!, regionId);
     if (existingCity != null) {
       return existingCity.id!;
     }
@@ -70,14 +70,15 @@ class _CountryScreenState extends State<CountryScreen> {
 
   Future<int> _insertOrRetrieveRegionId(Pin pin, int countryId) async {
     RegionDao regionDao = RegionDao();
+
     Region? existingRegion =
         await regionDao.getByRegionNameAndCountryId(pin.regionName, countryId);
+
     if (existingRegion != null) {
       return existingRegion.id!;
     }
 
     Region region = Region(name: pin.regionName, countryId: countryId);
-    print(region.name);
     int regionId = await regionDao.insert(region);
     return regionId;
   }
@@ -90,7 +91,6 @@ class _CountryScreenState extends State<CountryScreen> {
       return existingCountry.id!;
     }
     Country country = Country(name: pin.countryName);
-    print(country.name);
     int countryId = await countryDao.insert(country);
     return countryId;
   }
@@ -159,10 +159,13 @@ class _CountryScreenState extends State<CountryScreen> {
         future: _loadCountries(),
         builder: _builder,
       ),
-      bottomNavigationBar: BottomNavigationBar(currentIndex: 0, items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.abc), label: "Cioa"),
-        BottomNavigationBarItem(icon: Icon(Icons.abc), label: "Yahoo")
-      ]),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   currentIndex: 0,
+      //   items: const [
+      //     BottomNavigationBarItem(icon: Icon(Icons.abc), label: "Cioa"),
+      //     BottomNavigationBarItem(icon: Icon(Icons.abc), label: "Yahoo")
+      //   ],
+      // ),
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:been/dao/db.dart';
-import 'package:been/model/city.dart';
 import 'package:been/model/pin.dart';
 import 'package:been/model/region.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';

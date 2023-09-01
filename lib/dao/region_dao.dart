@@ -2,6 +2,7 @@ import 'package:been/dao/country_dao.dart';
 import 'package:been/dao/db.dart';
 import 'package:been/model/country.dart';
 import 'package:been/model/region.dart';
+import 'package:flutter/material.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 class RegionDao {
@@ -64,12 +65,12 @@ class RegionDao {
     final List<Map<String, dynamic>> maps = await database.query(
       tableName,
       orderBy: 'insert_date_time desc',
-      where: 'country_id = ? and name = ?',
-      whereArgs: [regionName, countryId],
+      where: 'country_id = ? and name like ?',
+      whereArgs: [countryId, regionName],
     );
 
     if (maps.isNotEmpty) {
-      Region(
+      return Region(
         id: maps[0]['id'],
         countryId: maps[0]["country_id"],
         name: maps[0]['name'],

@@ -50,7 +50,7 @@ class CityDao {
     );
   }
 
-  Future<City?> getByRegionNameAndRegionId(
+  Future<City?> getByCityNameAndRegionId(
       String regionName, int regionId) async {
     DB db = DB();
     final database = await db.getDatabaseConnection();
@@ -59,11 +59,11 @@ class CityDao {
       tableName,
       orderBy: 'insert_date_time desc',
       where: 'region_id = ? and name = ?',
-      whereArgs: [regionName, regionId],
+      whereArgs: [regionId, regionName],
     );
 
     if (maps.isNotEmpty) {
-      City(
+      return City(
         id: maps[0]['id'],
         regionId: maps[0]["region_id"],
         name: maps[0]['name'],

@@ -22,7 +22,7 @@ class DB {
       directory = appDocumentsDir.path;
     }
     db ??= await openDatabase(
-      join(directory ?? await getDatabasesPath(), 'db13.db'),
+      join(directory ?? await getDatabasesPath(), 'db15.db'),
       onCreate: (db, version) {
         db.execute(
             'CREATE TABLE country(id INTEGER PRIMARY KEY, name TEXT NOT NULL UNIQUE, insert_date_time TEXT)');

@@ -17,7 +17,6 @@ class RegionScreen extends StatefulWidget {
 class _RegionScreenState extends State<RegionScreen> {
   Future<List<Region>> _retrieveRegions() async {
     final String countryName = widget.country.name;
-    print(countryName);
     try {
       return await RegionDao().list(countryName);
     } catch (err) {

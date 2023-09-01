@@ -38,7 +38,6 @@ class MapWidgetState extends State<MapWidget> {
   updateMap(Pin pin) {
     if (_mapController != null) {
       setState(() {
-        print(pin.address);
         _mapController!.move(LatLng(pin.latitude, pin.longitude), 10.0);
       });
     }
