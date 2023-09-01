@@ -29,6 +29,7 @@ class CityDao {
 
     return List.generate(maps.length, (i) {
       return City(
+        numberOfChilds: 0,
         id: maps[i]['id'],
         regionId: maps[i]["region_id"],
         name: maps[i]['name'],
@@ -50,6 +51,20 @@ class CityDao {
     );
   }
 
+  Future<int> getPins(final int cityId) async {
+    DB db = DB();
+    final database = await db.getDatabaseConnection();
+
+    final List<Map<String, dynamic>> maps = await database.rawQuery(
+        "select count(1) as num from pin, city where pin.city_id = city.id and  pin.city_id = ?",
+        [cityId]);
+
+    if (maps.isEmpty) {
+      return 0;
+    }
+    return maps[0]["num"];
+  }
+
   Future<City?> getByCityNameAndRegionId(
       String regionName, int regionId) async {
     DB db = DB();
@@ -64,6 +79,7 @@ class CityDao {
 
     if (maps.isNotEmpty) {
       return City(
+        numberOfChilds: 0,
         id: maps[0]['id'],
         regionId: maps[0]["region_id"],
         name: maps[0]['name'],

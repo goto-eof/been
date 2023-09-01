@@ -28,13 +28,22 @@ class _PinScreenState extends State<PinScreen> {
     if (snapshot.hasData) {
       return ListView.builder(
         itemCount: snapshot.data.length,
-        itemBuilder: (context, index) => InkWell(
+        itemBuilder: (context, index) => Card(
+          child: InkWell(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => PinDetails(pin: snapshot.data![index]),
               ));
             },
-            child: Card(child: Text(snapshot.data[index].address))),
+            child: ListTile(
+              leading: const Icon(Icons.square),
+              subtitle: const Text("Pin"),
+              title: Text(
+                snapshot.data[index].address,
+              ),
+            ),
+          ),
+        ),
       );
     }
     return const Center(

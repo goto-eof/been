@@ -17,6 +17,20 @@ class RegionDao {
     );
   }
 
+  Future<int> getCitiesCount(final int regionId) async {
+    DB db = DB();
+    final database = await db.getDatabaseConnection();
+
+    final List<Map<String, dynamic>> maps = await database.rawQuery(
+        "select count(1) as num from city, region where city.region_id = region.id and  city.region_id = ?",
+        [regionId]);
+
+    if (maps.isEmpty) {
+      return 0;
+    }
+    return maps[0]["num"];
+  }
+
   Future<List<Region>> list(final String countryName) async {
     DB db = DB();
     final database = await db.getDatabaseConnection();
@@ -32,6 +46,7 @@ class RegionDao {
 
       return List.generate(maps.length, (i) {
         return Region(
+          numberOfChilds: 0,
           id: maps[i]['id'],
           countryId: maps[i]["country_id"],
           name: maps[i]['name'],
@@ -70,6 +85,7 @@ class RegionDao {
 
     if (maps.isNotEmpty) {
       return Region(
+        numberOfChilds: 0,
         id: maps[0]['id'],
         countryId: maps[0]["country_id"],
         name: maps[0]['name'],

@@ -18,7 +18,15 @@ class _RegionScreenState extends State<RegionScreen> {
   Future<List<Region>> _retrieveRegions() async {
     final String countryName = widget.country.name;
     try {
-      return await RegionDao().list(countryName);
+      RegionDao regionDao = RegionDao();
+      List<Region> regions = await regionDao.list(countryName);
+
+      for (Region region in regions) {
+        int countCities = await regionDao.getCitiesCount(region.id!);
+        region.numberOfChilds = countCities;
+      }
+
+      return regions;
     } catch (err) {
       print(err);
       return [];
@@ -30,20 +38,26 @@ class _RegionScreenState extends State<RegionScreen> {
       return ListView.builder(
         itemBuilder: (BuildContext ctx, int index) {
           return Card(
-            child: Row(
-              children: [
-                InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => CityScreen(
-                            region: snapshot.data[index],
-                          ),
-                        ),
-                      );
-                    },
-                    child: Card(child: Text(snapshot.data![index].name)))
-              ],
+            child: InkWell(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => CityScreen(
+                      region: snapshot.data[index],
+                    ),
+                  ),
+                );
+              },
+              child: ListTile(
+                leading: const Icon(Icons.square),
+                subtitle: const Text("District"),
+                title: Text(
+                  snapshot.data![index].name,
+                ),
+                trailing: Text(
+                  "(${snapshot.data![index].numberOfChilds.toString()})",
+                ),
+              ),
             ),
           );
         },

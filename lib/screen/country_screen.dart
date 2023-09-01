@@ -59,7 +59,7 @@ class _CountryScreenState extends State<CountryScreen> {
       return existingCity.id!;
     }
 
-    City city = City(name: pin.cityName, regionId: regionId);
+    City city = City(name: pin.cityName, regionId: regionId, numberOfChilds: 0);
     int cityId = await cityDao.insert(city);
     return cityId;
   }
@@ -74,7 +74,8 @@ class _CountryScreenState extends State<CountryScreen> {
       return existingRegion.id!;
     }
 
-    Region region = Region(name: pin.regionName, countryId: countryId);
+    Region region =
+        Region(name: pin.regionName, countryId: countryId, numberOfChilds: 0);
     int regionId = await regionDao.insert(region);
     return regionId;
   }
@@ -86,7 +87,7 @@ class _CountryScreenState extends State<CountryScreen> {
     if (existingCountry != null) {
       return existingCountry.id!;
     }
-    Country country = Country(name: pin.countryName, numberOfRegions: 0);
+    Country country = Country(name: pin.countryName, numberOfChilds: 0);
     int countryId = await countryDao.insert(country);
     return countryId;
   }
@@ -108,7 +109,7 @@ class _CountryScreenState extends State<CountryScreen> {
       for (Country country in countries) {
         int? regionNumber = await countryDao.getRegionsCount(country.name);
         if (regionNumber != null) {
-          country.numberOfRegions = regionNumber;
+          country.numberOfChilds = regionNumber;
         }
       }
       return countries;
@@ -123,23 +124,20 @@ class _CountryScreenState extends State<CountryScreen> {
       return ListView.builder(
         itemBuilder: (BuildContext ctx, int index) {
           return Card(
-            child: Row(
-              children: [
-                Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      _goToRegions(snapshot.data![index]);
-                    },
-                    child: ListTile(
-                      title: Text(
-                        snapshot.data![index].name,
-                      ),
-                      trailing: Text(
-                          "(${snapshot.data![index].numberOfRegions.toString()})"),
-                    ),
-                  ),
+            child: InkWell(
+              onTap: () {
+                _goToRegions(snapshot.data![index]);
+              },
+              child: ListTile(
+                leading: const Icon(Icons.square),
+                title: Text(
+                  snapshot.data![index].name,
                 ),
-              ],
+                subtitle: const Text("Nation"),
+                trailing: Text(
+                  "(${snapshot.data![index].numberOfChilds.toString()})",
+                ),
+              ),
             ),
           );
         },

@@ -31,7 +31,7 @@ class CountryDao {
     return Country(
       name: maps[0]["name"],
       id: maps[0]["id"],
-      numberOfRegions: 0,
+      numberOfChilds: 0,
       insertDateTime: DateTime.parse(
         maps[0]["insert_date_time"],
       ),
@@ -61,7 +61,7 @@ class CountryDao {
 
     return List.generate(maps.length, (i) {
       return Country(
-        numberOfRegions: 0,
+        numberOfChilds: 0,
         id: maps[i]['id'],
         name: maps[i]['name'],
         insertDateTime: DateTime.parse(

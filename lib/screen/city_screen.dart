@@ -25,17 +25,20 @@ class _CityScreenStatus extends State<CityScreen> {
       return ListView.builder(
         itemBuilder: (BuildContext ctx, int index) {
           return Card(
-            child: Row(
-              children: [
-                InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>
-                            PinScreen(city: snapshot.data![index]),
-                      ));
-                    },
-                    child: Card(child: Text(snapshot.data![index].name)))
-              ],
+            child: InkWell(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => PinScreen(city: snapshot.data![index]),
+                ));
+              },
+              child: ListTile(
+                leading: const Icon(Icons.square),
+                title: Text(snapshot.data![index].name),
+                subtitle: const Text("City"),
+                trailing: Text(
+                  "(${snapshot.data![index].numberOfChilds.toString()})",
+                ),
+              ),
             ),
           );
         },
@@ -49,7 +52,13 @@ class _CityScreenStatus extends State<CityScreen> {
   }
 
   Future<List<City>> _future() async {
-    return await CityDao().byRegion(widget.region);
+    CityDao cityDao = CityDao();
+    List<City> cities = await cityDao.byRegion(widget.region);
+    for (City city in cities) {
+      int numberOfPlaces = await cityDao.getPins(city.id!);
+      city.numberOfChilds = numberOfPlaces;
+    }
+    return cities;
   }
 
   @override
