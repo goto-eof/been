@@ -164,7 +164,7 @@ class _CountryScreenState extends State<CountryScreen> {
           IconButton(onPressed: _chooseAPlace, icon: const Icon(Icons.add))
         ],
       ),
-      drawer: const Drawer(),
+      // drawer: const Drawer(),
       body: FutureBuilder<List<Country>>(
         future: _loadCountries(),
         builder: _builder,

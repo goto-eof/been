@@ -49,23 +49,23 @@ class MapWidgetState extends State<MapWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 600,
-      height: 300,
-      child: FlutterMap(
-        options: MapOptions(
-            center: LatLng(widget.currentPosition.latitude,
-                widget.currentPosition.longitude),
-            zoom: widget.zoom ?? 10.0,
-            maxZoom: 18,
-            minZoom: 1),
-        mapController: _mapController,
-        children: [
-          TileLayer(
-            urlTemplate: urlTemplate,
-            subdomains: const ['a', 'b', 'c'],
-          ),
-        ],
+    return Expanded(
+      child: SizedBox(
+        child: FlutterMap(
+          options: MapOptions(
+              center: LatLng(widget.currentPosition.latitude,
+                  widget.currentPosition.longitude),
+              zoom: widget.zoom ?? 10.0,
+              maxZoom: 18,
+              minZoom: 1),
+          mapController: _mapController,
+          children: [
+            TileLayer(
+              urlTemplate: urlTemplate,
+              subdomains: const ['a', 'b', 'c'],
+            ),
+          ],
+        ),
       ),
     );
   }

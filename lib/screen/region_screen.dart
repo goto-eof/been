@@ -78,7 +78,7 @@ class _RegionScreenState extends State<RegionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: const [],
+        title: const Text("Districts"),
       ),
       body: FutureBuilder(
         builder: _builder,

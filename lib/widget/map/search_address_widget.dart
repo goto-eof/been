@@ -29,11 +29,12 @@ class _SearchAddressWidgetState extends State<SearchAddressWidget> {
         var response = await http.get(Uri.parse(url));
         var decodedResponse =
             jsonDecode(utf8.decode(response.bodyBytes)) as List<dynamic>;
+        debugPrint(utf8.decode(response.bodyBytes));
         _options = decodedResponse
             .map(
               (e) => Pin(
                 address: e['display_name'],
-                city: e["address"]["city"],
+                city: e["address"]["city"] ?? e["address"]["county"],
                 region: e["address"]["state"],
                 country: e["address"]["country"],
                 latitude: double.parse(e['lat']),

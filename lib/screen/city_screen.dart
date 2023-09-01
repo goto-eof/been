@@ -34,7 +34,7 @@ class _CityScreenStatus extends State<CityScreen> {
               child: ListTile(
                 leading: const Icon(Icons.square),
                 title: Text(snapshot.data![index].name),
-                subtitle: const Text("City"),
+                subtitle: const Text("City/County"),
                 trailing: Text(
                   "(${snapshot.data![index].numberOfChilds.toString()})",
                 ),
@@ -64,7 +64,9 @@ class _CityScreenStatus extends State<CityScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text("Cities/Counties"),
+      ),
       body: FutureBuilder<List<City>>(
         builder: _builder,
         future: _future(),

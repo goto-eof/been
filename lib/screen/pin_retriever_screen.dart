@@ -13,6 +13,13 @@ class PinRetrieverScreen extends StatefulWidget {
 class _PinRetrieverScreenState extends State<PinRetrieverScreen> {
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(child: Scaffold(body: MapDirectorWidget()));
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Pin it!"),
+        ),
+        body: const MapDirectorWidget(),
+      ),
+    );
   }
 }

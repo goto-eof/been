@@ -54,7 +54,9 @@ class _PinScreenState extends State<PinScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text("Places"),
+      ),
       body: FutureBuilder<List<Pin>>(
         builder: _builder,
         future: _future(),
