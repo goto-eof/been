@@ -174,7 +174,7 @@ class _CountryScreenState extends State<CountryScreen> {
           latitude: 0,
           address: "",
         ),
-        zoom: 1,
+        zoom: 2,
         markers: snapshot.data,
       );
     }
@@ -455,7 +455,7 @@ class _CountryScreenState extends State<CountryScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Icon(
-                Icons.location_history,
+                Icons.flag,
                 size: 100,
                 color: Color.fromARGB(255, 149, 54, 244),
               ),
