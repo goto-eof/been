@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:been/dao/city_dao.dart';
 import 'package:been/dao/country_dao.dart';
@@ -9,11 +8,12 @@ import 'package:been/model/country.dart';
 import 'package:been/model/pin.dart';
 import 'package:been/model/region.dart';
 import 'package:been/screen/pin_screen.dart';
-import 'package:been/screen/city_screen.dart';
 import 'package:been/screen/region_screen.dart';
 import 'package:flutter/material.dart';
 
 class CountryScreen extends StatefulWidget {
+  const CountryScreen({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return _CountryScreenState();
@@ -26,7 +26,7 @@ class _CountryScreenState extends State<CountryScreen> {
   _chooseAPlace() async {
     Pin? pin =
         await Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
-      return PinScreen();
+      return const PinScreen();
     }));
     if (pin != null) {
       try {
@@ -151,9 +151,9 @@ class _CountryScreenState extends State<CountryScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Been! "),
-        actions: [IconButton(onPressed: _chooseAPlace, icon: Icon(Icons.add))],
+        actions: [IconButton(onPressed: _chooseAPlace, icon: const Icon(Icons.add))],
       ),
-      drawer: Drawer(),
+      drawer: const Drawer(),
       body: FutureBuilder<List<Country>>(
         future: _loadCountries(),
         builder: _builder,

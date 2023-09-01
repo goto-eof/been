@@ -68,7 +68,7 @@ class RegionDao {
       whereArgs: [regionName, countryId],
     );
 
-    if (maps.length > 0) {
+    if (maps.isNotEmpty) {
       Region(
         id: maps[0]['id'],
         countryId: maps[0]["country_id"],

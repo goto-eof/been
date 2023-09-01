@@ -1,6 +1,5 @@
 import 'package:been/dao/db.dart';
 import 'package:been/model/city.dart';
-import 'package:been/model/pin.dart';
 import 'package:been/model/region.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
@@ -63,7 +62,7 @@ class CityDao {
       whereArgs: [regionName, regionId],
     );
 
-    if (maps.length > 0) {
+    if (maps.isNotEmpty) {
       City(
         id: maps[0]['id'],
         regionId: maps[0]["region_id"],

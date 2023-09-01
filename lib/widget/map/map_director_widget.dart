@@ -35,7 +35,7 @@ class _MapDirectorWidgetState extends State<MapDirectorWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 600,
       child: Column(
         mainAxisSize: MainAxisSize.min,

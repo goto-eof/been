@@ -2,6 +2,8 @@ import 'package:been/widget/map/map_director_widget.dart';
 import 'package:flutter/material.dart';
 
 class PinScreen extends StatefulWidget {
+  const PinScreen({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return _PinScreenState();
