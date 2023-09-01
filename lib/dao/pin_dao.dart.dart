@@ -133,4 +133,35 @@ class PinDao {
       throw DaoException(cause: err.toString());
     }
   }
+
+  Future<List<Pin>> listAll() async {
+    try {
+      DB db = DB();
+      final database = await db.getDatabaseConnection();
+
+      final List<Map<String, dynamic>> maps = await database.query(
+        tableName,
+        orderBy: 'insert_date_time desc',
+      );
+
+      return List.generate(
+        maps.length,
+        (i) {
+          return Pin(
+            id: maps[i]['id'],
+            cityId: maps[i]["city_id"],
+            name: maps[i]['name'],
+            address: maps[i]["address"],
+            latitude: maps[i]["latitude"],
+            longitude: maps[i]["longitude"],
+            insertDateTime: DateTime.parse(
+              maps[i]['insert_date_time'],
+            ),
+          );
+        },
+      );
+    } catch (err) {
+      throw DaoException(cause: err.toString());
+    }
+  }
 }

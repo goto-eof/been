@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:been/model/pin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -10,8 +12,10 @@ class MapWidget extends StatefulWidget {
       {super.key,
       required this.currentPosition,
       this.setUpdateMapCallback,
-      this.zoom});
+      this.zoom,
+      this.markers});
   final Pin currentPosition;
+  final List<Pin>? markers;
   final double? zoom;
   final Function(Function(Pin pin) function)? setUpdateMapCallback;
 
@@ -63,7 +67,20 @@ class MapWidgetState extends State<MapWidget> {
             TileLayer(
               urlTemplate: urlTemplate,
               subdomains: const ['a', 'b', 'c'],
+              backgroundColor: Color.fromARGB(154, 0, 0, 0),
             ),
+            MarkerLayer(
+                markers: (widget.markers ?? [])
+                    .map(
+                      (e) => Marker(
+                        point: LatLng(e.latitude, e.longitude),
+                        builder: (context) => const Icon(
+                          Icons.location_on,
+                          color: Colors.red,
+                        ),
+                      ),
+                    )
+                    .toList())
           ],
         ),
       ),

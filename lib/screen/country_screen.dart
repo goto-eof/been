@@ -8,6 +8,7 @@ import 'package:been/model/pin.dart';
 import 'package:been/model/district.dart';
 import 'package:been/screen/pin_retriever_screen.dart';
 import 'package:been/screen/region_screen.dart';
+import 'package:been/widget/map/map_widget.dart';
 import 'package:flutter/material.dart';
 
 class CountryScreen extends StatefulWidget {
@@ -112,6 +113,7 @@ class _CountryScreenState extends State<CountryScreen> {
           country.numberOfChilds = regionNumber;
         }
       }
+
       return countries;
     } catch (err) {
       print(err);
@@ -155,6 +157,34 @@ class _CountryScreenState extends State<CountryScreen> {
     );
   }
 
+  Future<List<Pin>> _mapMarkers() async {
+    List<Pin> pins = await PinDao().listAll();
+    debugPrint("Updateting pins: " + pins.toString());
+    return pins;
+  }
+
+  Widget _mapBuilder(BuildContext ctx, AsyncSnapshot<List<Pin>> snapshot) {
+    if (snapshot.hasData) {
+      return MapWidget(
+        currentPosition: Pin(
+          longitude: 0,
+          latitude: 0,
+          address: "",
+        ),
+        zoom: 1,
+        markers: snapshot.data,
+      );
+    }
+    if (snapshot.hasError) {
+      return const Center(
+        child: Text("Error"),
+      );
+    }
+    return const Center(
+      child: CircularProgressIndicator(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -170,17 +200,20 @@ class _CountryScreenState extends State<CountryScreen> {
         ],
       ),
       // drawer: const Drawer(),
-      body: FutureBuilder<List<Country>>(
-        future: _loadCountries(),
-        builder: _builder,
+      body: Row(
+        children: [
+          FutureBuilder(
+            future: _mapMarkers(),
+            builder: _mapBuilder,
+          ),
+          Expanded(
+            child: FutureBuilder<List<Country>>(
+              future: _loadCountries(),
+              builder: _builder,
+            ),
+          ),
+        ],
       ),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   currentIndex: 0,
-      //   items: const [
-      //     BottomNavigationBarItem(icon: Icon(Icons.abc), label: "Cioa"),
-      //     BottomNavigationBarItem(icon: Icon(Icons.abc), label: "Yahoo")
-      //   ],
-      // ),
     );
   }
 }
