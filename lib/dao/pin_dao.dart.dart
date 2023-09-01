@@ -1,4 +1,5 @@
 import 'package:been/dao/db.dart';
+import 'package:been/model/city.dart';
 import 'package:been/model/pin.dart';
 import 'package:been/model/region.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -79,5 +80,31 @@ class PinDao {
     }
 
     return null;
+  }
+
+  Future<List<Pin>> list(int cityId) async {
+    DB db = DB();
+    final database = await db.getDatabaseConnection();
+
+    final List<Map<String, dynamic>> maps = await database.query(
+      tableName,
+      orderBy: 'insert_date_time desc',
+      where: 'city_id = ?',
+      whereArgs: [cityId],
+    );
+
+    return List.generate(maps.length, (i) {
+      return Pin(
+        id: maps[i]['id'],
+        cityId: maps[i]["city_id"],
+        name: maps[i]['name'],
+        address: maps[i]["address"],
+        latitude: maps[i]["latitude"],
+        longitude: maps[i]["longitude"],
+        insertDateTime: DateTime.parse(
+          maps[i]['insert_date_time'],
+        ),
+      );
+    });
   }
 }

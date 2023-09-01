@@ -1,6 +1,7 @@
 import 'package:been/dao/city_dao.dart';
 import 'package:been/model/city.dart';
 import 'package:been/model/region.dart';
+import 'package:been/screen/pin_screen.dart';
 import 'package:flutter/material.dart';
 
 class CityScreen extends StatefulWidget {
@@ -28,7 +29,10 @@ class _CityScreenStatus extends State<CityScreen> {
               children: [
                 InkWell(
                     onTap: () {
-                      // widget.goToDetails(snapshot.data![index]);
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            PinScreen(city: snapshot.data![index]),
+                      ));
                     },
                     child: Card(child: Text(snapshot.data![index].name)))
               ],
