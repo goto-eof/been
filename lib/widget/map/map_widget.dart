@@ -6,14 +6,14 @@ import 'package:latlong2/latlong.dart';
 const urlTemplate = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 
 class MapWidget extends StatefulWidget {
-  MapWidget(
+  const MapWidget(
       {super.key,
       required this.currentPosition,
       this.setUpdateMapCallback,
       this.zoom});
-  Pin currentPosition;
-  double? zoom;
-  Function(Function(Pin pin) function)? setUpdateMapCallback;
+  final Pin currentPosition;
+  final double? zoom;
+  final Function(Function(Pin pin) function)? setUpdateMapCallback;
 
   @override
   State<StatefulWidget> createState() {

@@ -3,8 +3,8 @@ import 'package:been/widget/map/map_widget.dart';
 import 'package:flutter/material.dart';
 
 class PinDetails extends StatelessWidget {
-  PinDetails({super.key, required this.pin});
-  Pin pin;
+  const PinDetails({super.key, required this.pin});
+  final Pin pin;
 
   @override
   Widget build(BuildContext context) {

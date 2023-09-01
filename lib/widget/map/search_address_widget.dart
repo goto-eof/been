@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class SearchAddressWidget extends StatefulWidget {
-  SearchAddressWidget({super.key, required this.setPin});
-  void Function(Pin pin) setPin;
+  const SearchAddressWidget({super.key, required this.setPin});
+  final void Function(Pin pin) setPin;
   @override
   State<StatefulWidget> createState() {
     return _SearchAddressWidgetState();
