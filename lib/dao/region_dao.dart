@@ -2,7 +2,6 @@ import 'package:been/dao/country_dao.dart';
 import 'package:been/dao/db.dart';
 import 'package:been/model/country.dart';
 import 'package:been/model/region.dart';
-import 'package:flutter/material.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 class RegionDao {

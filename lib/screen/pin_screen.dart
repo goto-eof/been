@@ -2,7 +2,6 @@ import 'package:been/dao/pin_dao.dart.dart';
 import 'package:been/model/city.dart';
 import 'package:been/model/pin.dart';
 import 'package:been/screen/pin_details.dart';
-import 'package:been/widget/map/map_widget.dart';
 import 'package:flutter/material.dart';
 
 class PinScreen extends StatefulWidget {
