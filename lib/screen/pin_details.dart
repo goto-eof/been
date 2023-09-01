@@ -12,7 +12,10 @@ class PinDetails extends StatelessWidget {
       appBar: AppBar(),
       body: Column(
         children: [
-          Text(pin.address),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Text(pin.address),
+          ),
           MapWidget(
             currentPosition: pin,
             zoom: 16,

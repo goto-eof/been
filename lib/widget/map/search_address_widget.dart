@@ -34,9 +34,10 @@ class _SearchAddressWidgetState extends State<SearchAddressWidget> {
             .map(
               (e) => Pin(
                 address: e['display_name'],
-                city: e["address"]["city"] ?? e["address"]["county"],
-                region: e["address"]["state"],
-                country: e["address"]["country"],
+                city:
+                    e["address"]["city"] ?? e["address"]["county"] ?? "Unknown",
+                region: e["address"]["state"] ?? "Unknown",
+                country: e["address"]["country"] ?? "Unknown",
                 latitude: double.parse(e['lat']),
                 longitude: double.parse(
                   e['lon'],
