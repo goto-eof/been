@@ -101,6 +101,23 @@ class PinDao {
     }
   }
 
+  Future<int> count() async {
+    try {
+      DB db = DB();
+      final database = await db.getDatabaseConnection();
+
+      final List<Map<String, dynamic>> maps =
+          await database.rawQuery("select count(1) as num from pin");
+
+      if (maps.isEmpty) {
+        return 0;
+      }
+      return maps[0]["num"];
+    } catch (err) {
+      throw DaoException(cause: err.toString());
+    }
+  }
+
   Future<List<Pin>> list(int cityId) async {
     try {
       DB db = DB();

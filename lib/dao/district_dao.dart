@@ -22,6 +22,23 @@ class DistrictDao {
     }
   }
 
+  Future<int> count() async {
+    try {
+      DB db = DB();
+      final database = await db.getDatabaseConnection();
+
+      final List<Map<String, dynamic>> maps =
+          await database.rawQuery("select count(1) as num from region");
+
+      if (maps.isEmpty) {
+        return 0;
+      }
+      return maps[0]["num"];
+    } catch (err) {
+      throw DaoException(cause: err.toString());
+    }
+  }
+
   Future<int> getCitiesCount(final int regionId) async {
     try {
       DB db = DB();
