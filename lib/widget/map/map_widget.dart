@@ -53,7 +53,7 @@ class MapWidgetState extends State<MapWidget> {
         options: MapOptions(
             center: LatLng(widget.currentPosition.latitude,
                 widget.currentPosition.longitude),
-            zoom: 1.0,
+            zoom: 10.0,
             maxZoom: 18,
             minZoom: 1),
         mapController: _mapController,

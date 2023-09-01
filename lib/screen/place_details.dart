@@ -1,4 +1,5 @@
 import 'package:been/model/pin.dart';
+import 'package:been/widget/map/map_widget.dart';
 import 'package:flutter/material.dart';
 
 class PlaceDetails extends StatefulWidget {
@@ -16,7 +17,12 @@ class _PlaceDetailsStatus extends State<PlaceDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Text(widget.pin.address),
+      body: Column(
+        children: [
+          Text(widget.pin.address),
+          MapWidget(currentPosition: widget.pin)
+        ],
+      ),
     );
   }
 }
