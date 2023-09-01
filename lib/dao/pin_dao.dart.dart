@@ -1,7 +1,7 @@
 import 'package:been/dao/db.dart';
 import 'package:been/exception/dao_exception.dart';
 import 'package:been/model/pin.dart';
-import 'package:been/model/region.dart';
+import 'package:been/model/district.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 class PinDao {
@@ -21,7 +21,7 @@ class PinDao {
     }
   }
 
-  Future<List<Pin>> byRegion(final Region region) async {
+  Future<List<Pin>> byRegion(final District region) async {
     try {
       DB db = DB();
       final database = await db.getDatabaseConnection();

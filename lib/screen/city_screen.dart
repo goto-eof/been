@@ -1,12 +1,12 @@
 import 'package:been/dao/city_dao.dart';
 import 'package:been/model/city.dart';
-import 'package:been/model/region.dart';
+import 'package:been/model/district.dart';
 import 'package:been/screen/pin_screen.dart';
 import 'package:flutter/material.dart';
 
 class CityScreen extends StatefulWidget {
   const CityScreen({super.key, required this.region});
-  final Region region;
+  final District region;
 
   @override
   State<StatefulWidget> createState() {

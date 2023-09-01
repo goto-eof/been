@@ -1,11 +1,11 @@
 import 'package:been/dao/city_dao.dart';
 import 'package:been/dao/country_dao.dart';
 import 'package:been/dao/pin_dao.dart.dart';
-import 'package:been/dao/region_dao.dart';
+import 'package:been/dao/district_dao.dart';
 import 'package:been/model/city.dart';
 import 'package:been/model/country.dart';
 import 'package:been/model/pin.dart';
-import 'package:been/model/region.dart';
+import 'package:been/model/district.dart';
 import 'package:been/screen/pin_retriever_screen.dart';
 import 'package:been/screen/region_screen.dart';
 import 'package:flutter/material.dart';
@@ -65,17 +65,17 @@ class _CountryScreenState extends State<CountryScreen> {
   }
 
   Future<int> _insertOrRetrieveRegionId(Pin pin, int countryId) async {
-    RegionDao regionDao = RegionDao();
+    DistrictDao regionDao = DistrictDao();
 
-    Region? existingRegion =
+    District? existingRegion =
         await regionDao.getByRegionNameAndCountryId(pin.regionName, countryId);
 
     if (existingRegion != null) {
       return existingRegion.id!;
     }
 
-    Region region =
-        Region(name: pin.regionName, countryId: countryId, numberOfChilds: 0);
+    District region =
+        District(name: pin.regionName, countryId: countryId, numberOfChilds: 0);
     int regionId = await regionDao.insert(region);
     return regionId;
   }

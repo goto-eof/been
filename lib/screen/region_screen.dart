@@ -1,6 +1,6 @@
-import 'package:been/dao/region_dao.dart';
+import 'package:been/dao/district_dao.dart';
 import 'package:been/model/country.dart';
-import 'package:been/model/region.dart';
+import 'package:been/model/district.dart';
 import 'package:been/screen/city_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -15,13 +15,13 @@ class RegionScreen extends StatefulWidget {
 }
 
 class _RegionScreenState extends State<RegionScreen> {
-  Future<List<Region>> _retrieveRegions() async {
+  Future<List<District>> _retrieveRegions() async {
     final String countryName = widget.country.name;
     try {
-      RegionDao regionDao = RegionDao();
-      List<Region> regions = await regionDao.list(countryName);
+      DistrictDao regionDao = DistrictDao();
+      List<District> regions = await regionDao.list(countryName);
 
-      for (Region region in regions) {
+      for (District region in regions) {
         int countCities = await regionDao.getCitiesCount(region.id!);
         region.numberOfChilds = countCities;
       }

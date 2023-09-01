@@ -2,13 +2,13 @@ import 'package:been/dao/country_dao.dart';
 import 'package:been/dao/db.dart';
 import 'package:been/exception/dao_exception.dart';
 import 'package:been/model/country.dart';
-import 'package:been/model/region.dart';
+import 'package:been/model/district.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-class RegionDao {
+class DistrictDao {
   final tableName = "region";
 
-  Future<int> insert(Region region) async {
+  Future<int> insert(District region) async {
     try {
       DB db = DB();
       final database = await db.getDatabaseConnection();
@@ -40,7 +40,7 @@ class RegionDao {
     }
   }
 
-  Future<List<Region>> list(final String countryName) async {
+  Future<List<District>> list(final String countryName) async {
     try {
       DB db = DB();
       final database = await db.getDatabaseConnection();
@@ -55,7 +55,7 @@ class RegionDao {
         );
 
         return List.generate(maps.length, (i) {
-          return Region(
+          return District(
             numberOfChilds: 0,
             id: maps[i]['id'],
             countryId: maps[i]["country_id"],
@@ -88,7 +88,7 @@ class RegionDao {
     }
   }
 
-  Future<Region?> getByRegionNameAndCountryId(
+  Future<District?> getByRegionNameAndCountryId(
       String regionName, int countryId) async {
     try {
       DB db = DB();
@@ -102,7 +102,7 @@ class RegionDao {
       );
 
       if (maps.isNotEmpty) {
-        return Region(
+        return District(
           numberOfChilds: 0,
           id: maps[0]['id'],
           countryId: maps[0]["country_id"],

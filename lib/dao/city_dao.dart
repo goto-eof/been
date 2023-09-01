@@ -1,7 +1,7 @@
 import 'package:been/dao/db.dart';
 import 'package:been/exception/dao_exception.dart';
 import 'package:been/model/city.dart';
-import 'package:been/model/region.dart';
+import 'package:been/model/district.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 class CityDao {
@@ -21,7 +21,7 @@ class CityDao {
     }
   }
 
-  Future<List<City>> byRegion(final Region region) async {
+  Future<List<City>> byRegion(final District region) async {
     try {
       DB db = DB();
       final database = await db.getDatabaseConnection();

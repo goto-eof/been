@@ -1,5 +1,5 @@
-class Region {
-  Region({
+class District {
+  District({
     this.id,
     required this.name,
     this.insertDateTime,
