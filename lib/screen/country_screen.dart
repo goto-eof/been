@@ -162,7 +162,7 @@ class _CountryScreenState extends State<CountryScreen> {
 
   Future<List<Pin>> _mapMarkers() async {
     List<Pin> pins = await PinDao().listAll();
-    debugPrint("Updateting pins: " + pins.toString());
+    debugPrint("Updateting pins: $pins");
     return pins;
   }
 
@@ -523,12 +523,12 @@ class _CountryScreenState extends State<CountryScreen> {
       // background of the pie chart
       final gradientList = <List<Color>>[
         [
-          Color.fromRGBO(255, 0, 0, 1),
-          Color.fromRGBO(253, 113, 91, 1),
+          const Color.fromRGBO(255, 0, 0, 1),
+          const Color.fromRGBO(253, 113, 91, 1),
         ],
         [
-          Color.fromRGBO(223, 250, 92, 1),
-          Color.fromRGBO(129, 250, 112, 1),
+          const Color.fromRGBO(223, 250, 92, 1),
+          const Color.fromRGBO(129, 250, 112, 1),
         ],
       ];
       return Center(

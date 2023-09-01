@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:been/model/pin.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +66,7 @@ class MapWidgetState extends State<MapWidget> {
             TileLayer(
               urlTemplate: urlTemplate,
               subdomains: const ['a', 'b', 'c'],
-              backgroundColor: Color.fromARGB(154, 0, 0, 0),
+              backgroundColor: const Color.fromARGB(154, 0, 0, 0),
             ),
             MarkerLayer(
                 markers: (widget.markers ?? [])
