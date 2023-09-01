@@ -159,6 +159,11 @@ class _CountryScreenState extends State<CountryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: SizedBox(
+          width: 24,
+          height: 24,
+          child: Image.asset("assets/images/been.png"),
+        ),
         title: const Text("Been! "),
         actions: [
           IconButton(onPressed: _chooseAPlace, icon: const Icon(Icons.add))

@@ -65,14 +65,17 @@ class _SearchAddressWidgetState extends State<SearchAddressWidget> {
     OutlineInputBorder inputFocusBorder = const OutlineInputBorder(
       borderSide: BorderSide(color: Color.fromARGB(31, 255, 0, 0), width: 3.0),
     );
-    return TextField(
-        controller: _searchController,
-        focusNode: _focusNode,
-        decoration: InputDecoration(
-          hintText: "Input a city",
-          border: inputBorder,
-          focusedBorder: inputFocusBorder,
-        ),
-        onChanged: _onChange);
+    return Padding(
+      padding: const EdgeInsets.only(left: 5.0, right: 5, top: 5, bottom: 5),
+      child: TextField(
+          controller: _searchController,
+          focusNode: _focusNode,
+          decoration: InputDecoration(
+            hintText: "Input a city",
+            border: inputBorder,
+            focusedBorder: inputFocusBorder,
+          ),
+          onChanged: _onChange),
+    );
   }
 }

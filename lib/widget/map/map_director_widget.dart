@@ -44,8 +44,11 @@ class _MapDirectorWidgetState extends State<MapDirectorWidget> {
             currentPosition: currentPosition,
             setUpdateMapCallback: _setUpdateMapCallback,
           ),
-          FilledButton(
-              onPressed: _selectPosition, child: const Text("Save position"))
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FilledButton(
+                onPressed: _selectPosition, child: const Text("Save position")),
+          )
         ],
       ),
     );

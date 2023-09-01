@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Been
+Comment=Register visited places
+Exec=been
+Icon=${SNAP}/meta/gui/been.png
+Terminal=false
+Type=Application
+Categories=Utility;Office;

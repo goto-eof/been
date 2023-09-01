@@ -1,0 +1,29 @@
+name: been
+version: '0.4.0'
+summary: Pin visited places.
+description: Pin visited places.
+
+base: core22
+confinement: strict
+grade: stable
+
+architectures:
+  - build-on: amd64
+  - build-on: arm64
+
+apps:
+  been:
+    command: been
+    extensions: [gnome]
+    plugs: [network, network-bind, home]
+
+parts:
+  zenity-integration:
+    plugin: nil
+    stage-snaps:
+      - zenity-integration
+  been:
+    build-packages: [curl]
+    source: .
+    plugin: flutter
+    flutter-target: lib/main.dart
