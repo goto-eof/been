@@ -1,7 +1,9 @@
 import 'package:been/dao/district_dao.dart';
 import 'package:been/model/country_full_data.dart';
 import 'package:been/model/district.dart';
+import 'package:been/model/pin.dart';
 import 'package:been/screen/city_screen.dart';
+import 'package:been/widget/map/map_widget.dart';
 import 'package:flutter/material.dart';
 
 class DistrictScreen extends StatefulWidget {
@@ -35,23 +37,47 @@ class _DistrictScreenState extends State<DistrictScreen> {
 
   Widget _builder(context, snapshot) {
     if (snapshot.hasData) {
+      Pin pin = Pin(
+          longitude: widget.country.latlng[1],
+          latitude: widget.country.latlng[0],
+          address: widget.country.capital);
       return Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
           Expanded(
             child: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 100.0, right: 100, bottom: 50),
-                    child: Image.asset(
-                      "assets/images/flags-1000/${widget.country.cca2.toLowerCase()}.png",
+                  Container(
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    width: double.infinity,
+                    height: 300,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        MapWidget(
+                          zoom: 5,
+                          markers: [pin],
+                          currentPosition: pin,
+                        ),
+                      ],
                     ),
                   ),
                   _keyValueWidget("Country", widget.country.name),
+                  _keyValueWidget(
+                    "Flag",
+                    Image.asset(
+                      width: 32,
+                      "assets/images/flags/${widget.country.cca2.toLowerCase()}.png",
+                    ),
+                  ),
                   _keyValueWidget("Capital", widget.country.capital),
                   _keyValueWidget("CCA2", widget.country.cca2),
                   _keyValueWidget(
@@ -135,7 +161,7 @@ class _DistrictScreenState extends State<DistrictScreen> {
     );
   }
 
-  Widget _keyValueWidget(String key, String value) {
+  Widget _keyValueWidget<T>(String key, T value) {
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10),
       child: Card(
@@ -147,7 +173,7 @@ class _DistrictScreenState extends State<DistrictScreen> {
               const SizedBox(
                 width: 5,
               ),
-              Expanded(child: Text(value)),
+              value is Widget ? value : Expanded(child: Text(value as String)),
             ],
           ),
         ),
