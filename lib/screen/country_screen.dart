@@ -8,11 +8,16 @@ import 'package:been/model/pin.dart';
 import 'package:been/model/district.dart';
 import 'package:been/screen/pin_retriever_screen.dart';
 import 'package:been/screen/region_screen.dart';
+import 'package:been/widget/info_widget/count_cities_info_widget.dart';
+import 'package:been/widget/info_widget/count_countries_info_widget.dart';
+import 'package:been/widget/info_widget/count_districts_info_widget.dart';
+import 'package:been/widget/info_widget/count_pins_info_widget.dart';
+import 'package:been/widget/info_widget/total_countries_info_widget.dart';
 import 'package:been/widget/map/map_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pie_chart/pie_chart.dart';
-import 'package:been/widget/map/about_dialog.dart' as BeenAboutDialog;
+import 'package:been/widget/about_dialog.dart' as BeenAboutDialog;
 
 class CountryScreen extends StatefulWidget {
   const CountryScreen({super.key});
@@ -301,11 +306,12 @@ class _CountryScreenState extends State<CountryScreen> {
                       mainAxisSpacing: 1,
                     ),
                     children: [
-                      _infoPane(_pieChartTotalCountries()),
-                      _infoPane(_countriesWidget()),
-                      _infoPane(_districtsWidget()),
-                      _infoPane(_citiesWidget()),
-                      _infoPane(_pinsWidget()),
+                      _infoPane(
+                          TotalCountriesInfoWidget().pieChartTotalCountries()),
+                      _infoPane(CountCountriesInfoWidget().countriesWidget()),
+                      _infoPane(CountDistrictsInfoWidget().districtsWidget()),
+                      _infoPane(CountCitiesInfoWidget().citiesWidget()),
+                      _infoPane(CountPinsInfoWidget().pinsWidget()),
                     ],
                   ),
                 )
@@ -346,311 +352,6 @@ class _CountryScreenState extends State<CountryScreen> {
         ),
         child: child,
       ),
-    );
-  }
-
-  Widget _citiesWidget() {
-    return FutureBuilder(future: _countCities(), builder: _countCitiesBuilder);
-  }
-
-  Future<int> _countCities() async {
-    return await CityDao().count();
-  }
-
-  Widget _countCitiesBuilder(BuildContext ctx, AsyncSnapshot<int> snapshot) {
-    if (snapshot.hasData) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.location_city,
-                size: 100,
-                color: Colors.green,
-              ),
-              Column(
-                children: [
-                  Text(
-                    snapshot.data!.toString(),
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.green,
-                        fontSize: 52),
-                  ),
-                  const Text(
-                    "Cities",
-                    style: TextStyle(
-                      color: Colors.green,
-                    ),
-                  )
-                ],
-              ),
-            ],
-          ),
-        ],
-      );
-    }
-    if (snapshot.hasError) {
-      return const Center(
-        child: Text("Error"),
-      );
-    }
-    return const Center(
-      child: CircularProgressIndicator(),
-    );
-  }
-
-  Widget _districtsWidget() {
-    return FutureBuilder(
-        future: _countDistricts(), builder: _countDistrictBuilder);
-  }
-
-  Future<int> _countDistricts() async {
-    return await DistrictDao().count();
-  }
-
-  Widget _countDistrictBuilder(BuildContext ctx, AsyncSnapshot<int> snapshot) {
-    if (snapshot.hasData) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.local_activity,
-                size: 100,
-                color: Colors.blue,
-              ),
-              Column(
-                children: [
-                  Text(
-                    snapshot.data!.toString(),
-                    style: const TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 52),
-                  ),
-                  const Text(
-                    "Districts",
-                    style: TextStyle(
-                      color: Colors.blue,
-                    ),
-                  )
-                ],
-              ),
-            ],
-          ),
-        ],
-      );
-    }
-    if (snapshot.hasError) {
-      return const Center(
-        child: Text("Error"),
-      );
-    }
-    return const Center(
-      child: CircularProgressIndicator(),
-    );
-  }
-
-  Widget _pinsWidget() {
-    return FutureBuilder(future: _countPins(), builder: _countPinsBuilder);
-  }
-
-  Future<int> _countPins() async {
-    return await PinDao().count();
-  }
-
-  Widget _countPinsBuilder(BuildContext ctx, AsyncSnapshot<int> snapshot) {
-    if (snapshot.hasData) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.location_history,
-                  size: 100, color: Color.fromARGB(255, 244, 143, 54)),
-              Column(
-                children: [
-                  Text(
-                    snapshot.data!.toString(),
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 244, 143, 54),
-                        fontSize: 52),
-                  ),
-                  const Text(
-                    "Pins",
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 244, 143, 54),
-                    ),
-                  )
-                ],
-              ),
-            ],
-          ),
-        ],
-      );
-    }
-    if (snapshot.hasError) {
-      return const Center(
-        child: Text("Error"),
-      );
-    }
-    return const Center(
-      child: CircularProgressIndicator(),
-    );
-  }
-
-  Widget _countriesWidget() {
-    return FutureBuilder(
-        future: _countCountries(), builder: _countCountriesBuilder);
-  }
-
-  Future<int> _countCountries() async {
-    return await CountryDao().count();
-  }
-
-  Widget _countCountriesBuilder(BuildContext ctx, AsyncSnapshot<int> snapshot) {
-    if (snapshot.hasData) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.flag,
-                size: 100,
-                color: Color.fromARGB(255, 149, 54, 244),
-              ),
-              Column(
-                children: [
-                  Text(
-                    snapshot.data!.toString(),
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 149, 54, 244),
-                        fontSize: 52),
-                  ),
-                  const Text(
-                    "Countries",
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 149, 54, 244),
-                    ),
-                  )
-                ],
-              ),
-            ],
-          ),
-        ],
-      );
-    }
-    if (snapshot.hasError) {
-      return const Center(
-        child: Text("Error"),
-      );
-    }
-    return const Center(
-      child: CircularProgressIndicator(),
-    );
-  }
-
-  Widget _pieChartTotalCountries() {
-    return FutureBuilder(
-      builder: _totalCountriesBuilder,
-      future: _totalCountriesCount(),
-    );
-  }
-
-  Future<int> _totalCountriesCount() async {
-    return await CountryDao().count();
-  }
-
-  Widget _totalCountriesBuilder(BuildContext ctx, AsyncSnapshot<int> snapshot) {
-    if (snapshot.hasData) {
-      Map<String, double> dataMap = {
-        "Unvisited countries": double.parse((195 - snapshot.data!).toString()),
-        "Visited countries": double.parse(snapshot.data.toString()),
-      };
-
-      // Colors for each segment
-      // of the pie chart
-      List<Color> colorList = [
-        const Color(0xffD95AF3),
-        const Color(0xff3EE094),
-        const Color(0xff3398F6),
-        const Color(0xffFA4A42),
-        const Color(0xffFE9539)
-      ];
-
-      // List of gradients for the
-      // background of the pie chart
-      final gradientList = <List<Color>>[
-        [
-          const Color.fromRGBO(255, 0, 0, 1),
-          const Color.fromRGBO(253, 113, 91, 1),
-        ],
-        [
-          const Color.fromRGBO(223, 250, 92, 1),
-          const Color.fromRGBO(129, 250, 112, 1),
-        ],
-      ];
-      return Center(
-        child: PieChart(
-          // Pass in the data for
-          // the pie chart
-          dataMap: dataMap,
-          // Set the colors for the
-          // pie chart segments
-          colorList: colorList,
-          // Set the radius of the pie chart
-          chartRadius: 200,
-          // Set the center text of the pie chart
-          centerText: "Countries",
-          // Set the width of the
-          // ring around the pie chart
-          ringStrokeWidth: 24,
-          // Set the animation duration of the pie chart
-          animationDuration: const Duration(seconds: 3),
-          // Set the options for the chart values (e.g. show percentages, etc.)
-          chartValuesOptions: const ChartValuesOptions(
-              showChartValues: true,
-              showChartValuesOutside: true,
-              showChartValuesInPercentage: true,
-              showChartValueBackground: true),
-          // Set the options for the legend of the pie chart
-          legendOptions: const LegendOptions(
-              showLegends: true,
-              legendShape: BoxShape.circle,
-              legendTextStyle: TextStyle(fontSize: 10),
-              legendPosition: LegendPosition.top,
-              showLegendsInRow: true),
-          // Set the list of gradients for
-          // the background of the pie chart
-          gradientList: gradientList,
-        ),
-      );
-    }
-    if (snapshot.hasError) {
-      return const Center(
-        child: Text("Error"),
-      );
-    }
-    return const Center(
-      child: CircularProgressIndicator(),
     );
   }
 }
