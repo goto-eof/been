@@ -51,7 +51,7 @@ class CapitalsUtil {
       final List<double> latlng = (country["latlng"] as List<dynamic>)
           .map((e) => double.parse(e.toString()))
           .toList();
-      final bool independent = country["independent"] ?? false;
+      final bool independent = country["independent"] ;
       print(country["languages"]);
       final Map<String, dynamic> languagesMap = country["languages"];
       final Set<KeyValue<String, String>> languages = languagesMap.entries
