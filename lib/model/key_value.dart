@@ -1,5 +1,5 @@
-class KeyValue<T> {
+class KeyValue<T, U> {
   KeyValue({required this.key, this.value});
   T key;
-  T? value;
+  U? value;
 }

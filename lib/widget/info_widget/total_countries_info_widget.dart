@@ -1,4 +1,6 @@
 import 'package:been/dao/country_dao.dart';
+import 'package:been/model/key_value.dart';
+import 'package:been/widget/info_widget/capitals_util.dart';
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 
@@ -10,15 +12,20 @@ class TotalCountriesInfoWidget {
     );
   }
 
-  Future<int> _totalCountriesCount() async {
-    return await CountryDao().count();
+  Future<KeyValue<int, int>> _totalCountriesCount() async {
+    List<KeyValue<String, String>> capitals =
+        await CapitalsUtil().loadCountries();
+    int countriesBeen = await CountryDao().count();
+    return KeyValue(key: capitals.length, value: countriesBeen);
   }
 
-  Widget _totalCountriesBuilder(BuildContext ctx, AsyncSnapshot<int> snapshot) {
+  Widget _totalCountriesBuilder(
+      BuildContext ctx, AsyncSnapshot<KeyValue<int, int>> snapshot) {
     if (snapshot.hasData) {
       Map<String, double> dataMap = {
-        "Unvisited countries": double.parse((195 - snapshot.data!).toString()),
-        "Visited countries": double.parse(snapshot.data.toString()),
+        "Unvisited countries": double.parse(
+            (snapshot.data!.key - snapshot.data!.value!).toString()),
+        "Visited countries": double.parse(snapshot.data!.value.toString()),
       };
 
       List<Color> colorList = [
@@ -44,7 +51,7 @@ class TotalCountriesInfoWidget {
           dataMap: dataMap,
           colorList: colorList,
           chartRadius: 200,
-          centerText: "Countries",
+          centerText: "Countries (${snapshot.data!.key})",
           ringStrokeWidth: 24,
           animationDuration: const Duration(seconds: 3),
           chartValuesOptions: const ChartValuesOptions(
