@@ -330,6 +330,18 @@ class _CountryScreenState extends State<CountryScreen> {
           ),
         ),
         actions: [
+          IconButton(
+            onPressed: () {
+              PackageInfo.fromPlatform().then((value) => showDialog(
+                  context: context,
+                  builder: (ctx) {
+                    return _aboutDialogBuilder(ctx, value.version);
+                  }));
+            },
+            icon: const Icon(
+              Icons.help,
+            ),
+          ),
           TextButton(
             onPressed: _import,
             child: const Row(
@@ -345,15 +357,6 @@ class _CountryScreenState extends State<CountryScreen> {
               children: [Icon(Icons.subdirectory_arrow_right), Text("Export")],
             ),
           ),
-          IconButton(
-              onPressed: () {
-                PackageInfo.fromPlatform().then((value) => showDialog(
-                    context: context,
-                    builder: (ctx) {
-                      return _aboutDialogBuilder(ctx, value.version);
-                    }));
-              },
-              icon: const Icon(Icons.help)),
           IconButton(onPressed: _chooseAPlace, icon: const Icon(Icons.add)),
         ],
       ),
