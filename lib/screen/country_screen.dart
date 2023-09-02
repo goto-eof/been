@@ -161,7 +161,12 @@ class _CountryScreenState extends State<CountryScreen> {
     if (snapshot.hasData) {
       if (snapshot.data!.isEmpty) {
         return Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const SizedBox(
+              height: 10,
+            ),
             const Text("No data found"),
             const SizedBox(
               height: 10,
@@ -242,12 +247,25 @@ class _CountryScreenState extends State<CountryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: SizedBox(
-          width: 24,
-          height: 24,
-          child: Image.asset("assets/images/been.png"),
+        title: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Row(
+            children: [
+              SizedBox(
+                width: 32,
+                height: 32,
+                child: Image.asset("assets/images/been.png"),
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              const Text(
+                "Been! ",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
         ),
-        title: const Text("Been! "),
         actions: [
           IconButton(
               onPressed: () {
