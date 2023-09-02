@@ -37,8 +37,6 @@ class CountryScreen extends StatefulWidget {
 }
 
 class _CountryScreenState extends State<CountryScreen> {
-  static final countriesJson = CountryUtil().loadCountriesData();
-
   @override
   initState() {
     super.initState();
@@ -119,7 +117,8 @@ class _CountryScreenState extends State<CountryScreen> {
         }
       }
 
-      List<CountryData> countriesFromJson = (await countriesJson);
+      List<CountryData> countriesFromJson =
+          await CountryUtil().loadCountriesData();
 
       List<CountryFullData> countriesFullData = countries.map((country) {
         CountryData? foundCountryData = countriesFromJson.firstWhere(
