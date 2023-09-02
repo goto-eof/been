@@ -24,8 +24,8 @@ class ImportFormatCsvStrategy implements ImportFormatStrategy {
         .skip(1)
         .map(
           (fields) => Pin(
-            longitude: double.parse(fields[0]),
-            latitude: double.parse(fields[1]),
+            longitude: fields[0],
+            latitude: fields[1],
             city: fields[2],
             region: fields[3],
             country: fields[4],

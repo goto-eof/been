@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:been/dao/city_dao.dart';
 import 'package:been/dao/country_dao.dart';
 import 'package:been/dao/pin_dao.dart.dart';
@@ -8,12 +11,15 @@ import 'package:been/model/pin.dart';
 import 'package:been/model/district.dart';
 import 'package:been/screen/pin_retriever_screen.dart';
 import 'package:been/screen/district_screen.dart';
+import 'package:been/service/export/file_content_generator.dart';
+import 'package:been/service/import/file_content_loader.dart';
 import 'package:been/widget/info_widget/count_cities_info_widget.dart';
 import 'package:been/widget/info_widget/count_countries_info_widget.dart';
 import 'package:been/widget/info_widget/count_districts_info_widget.dart';
 import 'package:been/widget/info_widget/count_pins_info_widget.dart';
 import 'package:been/widget/info_widget/total_countries_info_widget.dart';
 import 'package:been/widget/map/map_widget.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:been/widget/about_dialog.dart' as been_about_dialog;
@@ -35,19 +41,23 @@ class _CountryScreenState extends State<CountryScreen> {
     }));
     if (pin != null) {
       try {
-        int countryId = await _insertOrRetrieveCountryId(pin);
-
-        int regionId = await _insertOrRetrieveRegionId(pin, countryId);
-
-        int cityId = await _insertOrRetrieveCityId(pin, regionId);
-
-        await _insertOrRetrievePinId(pin, cityId);
+        await _insertPin(pin);
         setState(() {});
       } catch (err) {
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("Something went wrong: $err")));
       }
     }
+  }
+
+  Future<void> _insertPin(Pin pin) async {
+    int countryId = await _insertOrRetrieveCountryId(pin);
+
+    int regionId = await _insertOrRetrieveRegionId(pin, countryId);
+
+    int cityId = await _insertOrRetrieveCityId(pin, regionId);
+
+    await _insertOrRetrievePinId(pin, cityId);
   }
 
   Future<void> _insertOrRetrievePinId(Pin pin, int cityId) async {
@@ -257,6 +267,44 @@ class _CountryScreenState extends State<CountryScreen> {
     );
   }
 
+  void _import() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+        allowMultiple: false,
+        type: FileType.custom,
+        allowedExtensions: ["csv"]);
+
+    if (result != null) {
+      List<Pin> pins = await FileContentLoader()
+          .convertToList(result.files[0].path!, ImportFileType.csv);
+      for (Pin pin in pins) {
+        try {
+          await _insertPin(pin);
+        } catch (err) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Something went wrong: $err")));
+        }
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Places importation completed")));
+      setState(() {});
+    }
+  }
+
+  void _export() async {
+    String? filePathAndName = await FilePicker.platform
+        .saveFile(type: FileType.custom, allowedExtensions: ["csv"]);
+    if (filePathAndName != null) {
+      FileContentGenerator fileGenerator = FileContentGenerator();
+      List<Pin> pins = await PinDao().listAll();
+      Uint8List data =
+          await fileGenerator.convertToUint8List(pins, FileImportType.csv);
+      final file = File("$filePathAndName.${FileImportType.csv}");
+      await file.writeAsBytes(data);
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Places exportation completed")));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -282,7 +330,7 @@ class _CountryScreenState extends State<CountryScreen> {
         ),
         actions: [
           TextButton(
-            onPressed: _chooseAPlace,
+            onPressed: _import,
             child: const Row(
               children: [
                 Text("Import"),
@@ -291,7 +339,7 @@ class _CountryScreenState extends State<CountryScreen> {
             ),
           ),
           TextButton(
-            onPressed: _chooseAPlace,
+            onPressed: _export,
             child: const Row(
               children: [Icon(Icons.subdirectory_arrow_right), Text("Export")],
             ),

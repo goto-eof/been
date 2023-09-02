@@ -155,11 +155,8 @@ class PinDao {
     try {
       DB db = DB();
       final database = await db.getDatabaseConnection();
-
-      final List<Map<String, dynamic>> maps = await database.query(
-        tableName,
-        orderBy: 'insert_date_time desc',
-      );
+      final List<Map<String, dynamic>> maps = await database.rawQuery(
+          "select c.name as city, r.name as region, co.name as country, p.id, p.name, p.insert_date_time, p.city_id, p.latitude, p.longitude, p.address from pin as p, city as c, region as r, country as co where p.city_id = c.id and c.region_id = r.id and r.country_id = co.id");
 
       return List.generate(
         maps.length,
@@ -171,6 +168,9 @@ class PinDao {
             address: maps[i]["address"],
             latitude: maps[i]["latitude"],
             longitude: maps[i]["longitude"],
+            city: maps[i]["city"],
+            region: maps[i]["region"],
+            country: maps[i]["country"],
             insertDateTime: DateTime.parse(
               maps[i]['insert_date_time'],
             ),

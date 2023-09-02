@@ -39,7 +39,7 @@ class ExportFormatCsvStrategy implements ExportFormatStrategy {
   }
 
   @override
-  FileType getFileType() {
-    return FileType.csv;
+  FileImportType getFileType() {
+    return FileImportType.csv;
   }
 }

@@ -14,7 +14,7 @@ class FileContentLoader {
   factory FileContentLoader() => _privateConstructor;
   static final _privateConstructor = FileContentLoader._();
 
-  Future<List<Pin>> convertToToDoList(
+  Future<List<Pin>> convertToList(
       final String filePathAndName, ImportFileType fileType) {
     return strategies
         .firstWhere((strategy) => strategy.getFileType() == fileType)
