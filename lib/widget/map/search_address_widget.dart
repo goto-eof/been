@@ -30,21 +30,25 @@ class _SearchAddressWidgetState extends State<SearchAddressWidget> {
         var decodedResponse =
             jsonDecode(utf8.decode(response.bodyBytes)) as List<dynamic>;
         debugPrint(utf8.decode(response.bodyBytes));
-        _options = decodedResponse
-            .map(
-              (e) => Pin(
-                address: e['display_name'],
-                city:
-                    e["address"]["city"] ?? e["address"]["county"] ?? "Unknown",
-                region: e["address"]["state"] ?? "Unknown",
-                country: e["address"]["country"] ?? "Unknown",
-                latitude: double.parse(e['lat']),
-                longitude: double.parse(
-                  e['lon'],
+
+        setState(() {
+          _options = decodedResponse
+              .map(
+                (e) => Pin(
+                  address: e['display_name'],
+                  city: e["address"]["city"] ??
+                      e["address"]["county"] ??
+                      "Unknown",
+                  region: e["address"]["state"] ?? "Unknown",
+                  country: e["address"]["country"] ?? "Unknown",
+                  latitude: double.parse(e['lat']),
+                  longitude: double.parse(
+                    e['lon'],
+                  ),
                 ),
-              ),
-            )
-            .toList();
+              )
+              .toList();
+        });
 
         if (_options.isNotEmpty) {
           widget.setPin(_options[0]);
@@ -67,15 +71,21 @@ class _SearchAddressWidgetState extends State<SearchAddressWidget> {
     );
     return Padding(
       padding: const EdgeInsets.only(left: 5.0, right: 5, top: 5, bottom: 5),
-      child: TextField(
-          controller: _searchController,
-          focusNode: _focusNode,
-          decoration: InputDecoration(
-            hintText: "Input a city",
-            border: inputBorder,
-            focusedBorder: inputFocusBorder,
+      child: Column(
+        children: [
+          TextField(
+            controller: _searchController,
+            focusNode: _focusNode,
+            decoration: InputDecoration(
+              hintText: "Input a city",
+              border: inputBorder,
+              focusedBorder: inputFocusBorder,
+            ),
+            onChanged: _onChange,
           ),
-          onChanged: _onChange),
+          _options.isNotEmpty ? Text(_options[0].address) : const Text(""),
+        ],
+      ),
     );
   }
 }
