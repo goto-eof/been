@@ -281,6 +281,21 @@ class _CountryScreenState extends State<CountryScreen> {
           ),
         ),
         actions: [
+          TextButton(
+            onPressed: _chooseAPlace,
+            child: const Row(
+              children: [
+                Text("Import"),
+                Icon(Icons.subdirectory_arrow_left),
+              ],
+            ),
+          ),
+          TextButton(
+            onPressed: _chooseAPlace,
+            child: const Row(
+              children: [Icon(Icons.subdirectory_arrow_right), Text("Export")],
+            ),
+          ),
           IconButton(
               onPressed: () {
                 PackageInfo.fromPlatform().then((value) => showDialog(
@@ -290,7 +305,7 @@ class _CountryScreenState extends State<CountryScreen> {
                     }));
               },
               icon: const Icon(Icons.help)),
-          IconButton(onPressed: _chooseAPlace, icon: const Icon(Icons.add))
+          IconButton(onPressed: _chooseAPlace, icon: const Icon(Icons.add)),
         ],
       ),
       // drawer: const Drawer(),
