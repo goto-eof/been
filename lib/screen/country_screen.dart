@@ -283,7 +283,7 @@ class _CountryScreenState extends State<CountryScreen> {
         } catch (err) {
           ScaffoldMessenger.of(context).clearSnackBars();
           ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text("Something went wrong")));
+              .showSnackBar(const SnackBar(content: Text("Something went wrong")));
         }
       }
       ScaffoldMessenger.of(context).clearSnackBars();
