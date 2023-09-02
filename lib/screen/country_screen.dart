@@ -16,7 +16,6 @@ import 'package:been/widget/info_widget/total_countries_info_widget.dart';
 import 'package:been/widget/map/map_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:pie_chart/pie_chart.dart';
 import 'package:been/widget/about_dialog.dart' as BeenAboutDialog;
 
 class CountryScreen extends StatefulWidget {
