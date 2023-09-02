@@ -298,7 +298,7 @@ class _CountryScreenState extends State<CountryScreen> {
       List<Pin> pins = await PinDao().listAll();
       Uint8List data =
           await fileGenerator.convertToUint8List(pins, FileImportType.csv);
-      final file = File("$filePathAndName.${FileImportType.csv}");
+      final file = File("$filePathAndName.${FileImportType.csv.name}");
       await file.writeAsBytes(data);
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Places exportation completed")));
