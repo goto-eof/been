@@ -11,10 +11,12 @@ class MapWidget extends StatefulWidget {
       this.currentPosition,
       this.setUpdateMapCallback,
       this.zoom,
-      this.markers});
+      this.markers,
+      this.padding});
   final Pin? currentPosition;
   final List<Pin>? markers;
   final double? zoom;
+  final EdgeInsets? padding;
   final Function(Function(Pin pin) function)? setUpdateMapCallback;
 
   @override
@@ -52,7 +54,8 @@ class MapWidgetState extends State<MapWidget> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: SizedBox(
+      child: Padding(
+        padding: widget.padding ?? const EdgeInsets.all(0.0),
         child: FlutterMap(
           options: MapOptions(
               center: widget.currentPosition != null

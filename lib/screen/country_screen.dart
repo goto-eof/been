@@ -232,6 +232,7 @@ class _CountryScreenState extends State<CountryScreen> {
   Widget _mapBuilder(BuildContext ctx, AsyncSnapshot<List<Pin>> snapshot) {
     if (snapshot.hasData) {
       return MapWidget(
+        padding: const EdgeInsets.only(left: 10, right: 10),
         currentPosition: Pin(
           longitude: 0,
           latitude: 0,
@@ -385,6 +386,14 @@ class _CountryScreenState extends State<CountryScreen> {
           Expanded(
             child: Column(
               children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Countries",
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                        color: Theme.of(context).colorScheme.onBackground),
+                  ),
+                ),
                 Expanded(
                   child: FutureBuilder<List<CountryFullData>>(
                     future: _loadCountries(),
