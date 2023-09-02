@@ -21,8 +21,6 @@ class TotalCountriesInfoWidget {
         "Visited countries": double.parse(snapshot.data.toString()),
       };
 
-      // Colors for each segment
-      // of the pie chart
       List<Color> colorList = [
         const Color(0xffD95AF3),
         const Color(0xff3EE094),
@@ -31,8 +29,6 @@ class TotalCountriesInfoWidget {
         const Color(0xffFE9539)
       ];
 
-      // List of gradients for the
-      // background of the pie chart
       final gradientList = <List<Color>>[
         [
           const Color.fromRGBO(255, 0, 0, 1),
@@ -45,36 +41,23 @@ class TotalCountriesInfoWidget {
       ];
       return Center(
         child: PieChart(
-          // Pass in the data for
-          // the pie chart
           dataMap: dataMap,
-          // Set the colors for the
-          // pie chart segments
           colorList: colorList,
-          // Set the radius of the pie chart
           chartRadius: 200,
-          // Set the center text of the pie chart
           centerText: "Countries",
-          // Set the width of the
-          // ring around the pie chart
           ringStrokeWidth: 24,
-          // Set the animation duration of the pie chart
           animationDuration: const Duration(seconds: 3),
-          // Set the options for the chart values (e.g. show percentages, etc.)
           chartValuesOptions: const ChartValuesOptions(
               showChartValues: true,
               showChartValuesOutside: true,
               showChartValuesInPercentage: true,
               showChartValueBackground: true),
-          // Set the options for the legend of the pie chart
           legendOptions: const LegendOptions(
               showLegends: true,
               legendShape: BoxShape.circle,
               legendTextStyle: TextStyle(fontSize: 10),
               legendPosition: LegendPosition.top,
               showLegendsInRow: true),
-          // Set the list of gradients for
-          // the background of the pie chart
           gradientList: gradientList,
         ),
       );

@@ -25,7 +25,7 @@ class _SearchAddressWidgetState extends State<SearchAddressWidget> {
     _debounce = Timer(const Duration(milliseconds: 1000), () async {
       try {
         String url =
-            'https://nominatim.openstreetmap.org/search?q=$value&format=json&polygon_svg=0&addressdetails=1';
+            'https://nominatim.openstreetmap.org/search?q=$value&accept-language=en&format=json&polygon_svg=0&addressdetails=1';
         var response = await http.get(Uri.parse(url));
         var decodedResponse =
             jsonDecode(utf8.decode(response.bodyBytes)) as List<dynamic>;
