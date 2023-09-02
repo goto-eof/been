@@ -1,6 +1,6 @@
 import 'package:been/dao/country_dao.dart';
 import 'package:been/model/key_value.dart';
-import 'package:been/widget/info_widget/capitals_util.dart';
+import 'package:been/util/capitals_util.dart';
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 
