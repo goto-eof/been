@@ -412,7 +412,7 @@ class _CountryScreenState extends State<CountryScreen> {
 
   Widget _infoPane(Widget child) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(10.0),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),

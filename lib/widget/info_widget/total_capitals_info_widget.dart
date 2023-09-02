@@ -67,8 +67,6 @@ class TotalCapitalsInfoWidget {
         const Color(0xffFE9539)
       ];
 
-      // List of gradients for the
-      // background of the pie chart
       final gradientList = <List<Color>>[
         [
           const Color.fromRGBO(255, 0, 0, 1),
