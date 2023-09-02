@@ -29,7 +29,8 @@ class PinDetails extends StatelessWidget {
           ),
           MapWidget(
             currentPosition: pin,
-            zoom: 16,
+            markers: [pin],
+            zoom: 13,
           ),
         ],
       ),
