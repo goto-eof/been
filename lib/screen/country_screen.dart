@@ -286,7 +286,7 @@ class _CountryScreenState extends State<CountryScreen> {
         }
       }
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Places importation completed")));
+          const SnackBar(content: Text("Places importation completed")));
       setState(() {});
     }
   }
@@ -302,7 +302,7 @@ class _CountryScreenState extends State<CountryScreen> {
       final file = File("$filePathAndName.${FileImportType.csv.name}");
       await file.writeAsBytes(data);
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Places exportation completed")));
+          const SnackBar(content: Text("Places exportation completed")));
     }
   }
 

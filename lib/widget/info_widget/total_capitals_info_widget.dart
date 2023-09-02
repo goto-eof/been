@@ -75,8 +75,8 @@ class TotalCapitalsInfoWidget {
           const Color.fromRGBO(253, 113, 91, 1),
         ],
         [
-          Color.fromARGB(255, 159, 30, 234),
-          Color.fromARGB(255, 143, 60, 237),
+          const Color.fromARGB(255, 159, 30, 234),
+          const Color.fromARGB(255, 143, 60, 237),
         ],
       ];
       return Center(
