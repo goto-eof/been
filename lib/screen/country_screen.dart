@@ -240,7 +240,7 @@ class _CountryScreenState extends State<CountryScreen> {
                       return _aboutDialogBuilder(ctx, value.version);
                     }));
               },
-              icon: Icon(Icons.help)),
+              icon: const Icon(Icons.help)),
           IconButton(onPressed: _chooseAPlace, icon: const Icon(Icons.add))
         ],
       ),
