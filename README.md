@@ -1,6 +1,6 @@
 # Been!
 
-Keep track of countries in the World that you have visited. The app visualizes the visited countries both as a list and as a world map.
+Keep track of places in the World that you have visited. The app visualizes the visited countries and cities as a list and as a world map. Been! allows also to export and import markers (stored places) in CSV format.
 
 # Download from Snap Store (Ubuntu)
 
