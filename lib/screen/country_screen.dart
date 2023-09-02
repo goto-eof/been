@@ -159,6 +159,23 @@ class _CountryScreenState extends State<CountryScreen> {
   Widget _countriesBuilder(
       BuildContext ctx, AsyncSnapshot<List<Country>> snapshot) {
     if (snapshot.hasData) {
+      if (snapshot.data!.isEmpty) {
+        return Column(
+          children: [
+            const Text("No data found"),
+            const SizedBox(
+              height: 10,
+            ),
+            FilledButton(
+              onPressed: _chooseAPlace,
+              child: const Text(
+                "Add new Place that you visited",
+              ),
+            ),
+          ],
+        );
+      }
+
       return ListView.builder(
         itemBuilder: (BuildContext ctx, int index) {
           return Card(

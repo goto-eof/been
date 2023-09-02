@@ -25,7 +25,7 @@ class DB {
     // final dbPath = await getDatabasesPath();
     final dbPath = await getDatabasesPath();
     db ??= await openDatabase(
-      join(directory ?? dbPath, 'db19.db'),
+      join(directory ?? dbPath, 'db20.db'),
       onCreate: (db, version) {
         db.execute(
             'CREATE TABLE country(id INTEGER PRIMARY KEY, name TEXT NOT NULL UNIQUE, insert_date_time TEXT)');
