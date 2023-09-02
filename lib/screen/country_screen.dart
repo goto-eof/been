@@ -281,10 +281,12 @@ class _CountryScreenState extends State<CountryScreen> {
         try {
           await _insertPin(pin);
         } catch (err) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Something went wrong: $err")));
+          ScaffoldMessenger.of(context).clearSnackBars();
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("Something went wrong")));
         }
       }
+      ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Places importation completed")));
       setState(() {});
@@ -301,6 +303,7 @@ class _CountryScreenState extends State<CountryScreen> {
           await fileGenerator.convertToUint8List(pins, FileImportType.csv);
       final file = File("$filePathAndName.${FileImportType.csv.name}");
       await file.writeAsBytes(data);
+      ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Places exportation completed")));
     }
