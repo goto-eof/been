@@ -10,7 +10,9 @@ import 'package:been/screen/pin_retriever_screen.dart';
 import 'package:been/screen/region_screen.dart';
 import 'package:been/widget/map/map_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pie_chart/pie_chart.dart';
+import 'package:been/widget/map/about_dialog.dart' as BeenAboutDialog;
 
 class CountryScreen extends StatefulWidget {
   const CountryScreen({super.key});
@@ -124,6 +126,18 @@ class _CountryScreenState extends State<CountryScreen> {
     setState(() {});
   }
 
+  Widget _aboutDialogBuilder(BuildContext context, final String version) {
+    return BeenAboutDialog.AboutDialog(
+      applicationName: "Been!",
+      applicationSnapName: "been",
+      applicationIcon: SizedBox(
+          width: 64, height: 64, child: Image.asset("assets/images/been.png")),
+      applicationVersion: version,
+      applicationLegalese: "GNU GENERAL PUBLIC LICENSE Version 3",
+      applicationDeveloper: "Andrei Dodu",
+    );
+  }
+
   Future<List<Country>> _loadCountries() async {
     try {
       CountryDao countryDao = CountryDao();
@@ -218,6 +232,15 @@ class _CountryScreenState extends State<CountryScreen> {
         ),
         title: const Text("Been! "),
         actions: [
+          IconButton(
+              onPressed: () {
+                PackageInfo.fromPlatform().then((value) => showDialog(
+                    context: context,
+                    builder: (ctx) {
+                      return _aboutDialogBuilder(ctx, value.version);
+                    }));
+              },
+              icon: Icon(Icons.help)),
           IconButton(onPressed: _chooseAPlace, icon: const Icon(Icons.add))
         ],
       ),
