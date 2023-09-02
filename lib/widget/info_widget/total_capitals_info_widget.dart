@@ -13,6 +13,7 @@ class TotalCapitalsInfoWidget {
   }
 
   Future<KeyValue<int, int>> _readCapitalsJson() async {
+    await CapitalsUtil().loadCountriesData();
     List<KeyValue<String, String>> result =
         await CapitalsUtil().loadCountries();
     Set<String> allCapitals = result
