@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:been/model/country_data.dart';
 import 'package:been/model/key_value.dart';
@@ -60,7 +59,7 @@ class CapitalsUtil {
           .toSet();
 
       final Map<String, dynamic> currenciesMap = country["currencies"];
-      Set<KeyValue<String, String>> currencies = Set();
+      Set<KeyValue<String, String>> currencies = {};
       if (currenciesMap.entries.isNotEmpty) {
         currencies = currenciesMap.entries
             .map((currency) => KeyValue(
