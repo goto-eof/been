@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:been/model/country_data.dart';
 import 'package:been/model/key_value.dart';
@@ -27,7 +28,7 @@ class CapitalsUtil {
     for (dynamic country in data as List<dynamic>) {
       final String countryName = country["name"]["common"];
       final String countryCapital = country["capital"][0];
-      final bool independent = country["independent"] ?? false;
+      final bool independent = country["independent"];
       if (independent) {
         countryCapitalList
             .add(KeyValue(key: countryName, value: countryCapital));
@@ -47,12 +48,12 @@ class CapitalsUtil {
       final String capital = country["capital"][0];
       final String tld = country["tld"][0];
       final String region = country["region"];
+      final String cca2 = country["cca2"];
       final String subregion = country["subregion"];
       final List<double> latlng = (country["latlng"] as List<dynamic>)
           .map((e) => double.parse(e.toString()))
           .toList();
-      final bool independent = country["independent"] ;
-      print(country["languages"]);
+      final bool independent = country["independent"];
       final Map<String, dynamic> languagesMap = country["languages"];
       final Set<KeyValue<String, String>> languages = languagesMap.entries
           .map((e) => KeyValue(key: e.key, value: e.value as String))
@@ -77,8 +78,10 @@ class CapitalsUtil {
           subregion: subregion,
           languages: languages,
           latlng: latlng,
-          currencies: currencies));
+          currencies: currencies,
+          cca2: cca2));
     }
+
     return countryCapitalList;
   }
 }

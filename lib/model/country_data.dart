@@ -11,7 +11,8 @@ class CountryData {
       required this.subregion,
       required this.languages,
       required this.latlng,
-      required this.currencies});
+      required this.currencies,
+      required this.cca2});
   String commonName;
   String officialName;
   String tld;
@@ -22,4 +23,5 @@ class CountryData {
   Set<KeyValue<String, String>> languages;
   List<double> latlng;
   Set<KeyValue<String, String>> currencies;
+  String cca2;
 }

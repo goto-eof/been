@@ -7,12 +7,15 @@ import 'package:been/dao/pin_dao.dart.dart';
 import 'package:been/dao/district_dao.dart';
 import 'package:been/model/city.dart';
 import 'package:been/model/country.dart';
+import 'package:been/model/country_data.dart';
+import 'package:been/model/country_full_data.dart';
 import 'package:been/model/pin.dart';
 import 'package:been/model/district.dart';
 import 'package:been/screen/pin_retriever_screen.dart';
 import 'package:been/screen/district_screen.dart';
 import 'package:been/service/export/file_content_generator.dart';
 import 'package:been/service/import/file_content_loader.dart';
+import 'package:been/util/capitals_util.dart';
 import 'package:been/widget/info_widget/count_cities_info_widget.dart';
 import 'package:been/widget/info_widget/count_countries_info_widget.dart';
 import 'package:been/widget/info_widget/count_districts_info_widget.dart';
@@ -35,6 +38,8 @@ class CountryScreen extends StatefulWidget {
 }
 
 class _CountryScreenState extends State<CountryScreen> {
+  static final countriesJson = CapitalsUtil().loadCountriesData();
+
   _chooseAPlace() async {
     Pin? pin =
         await Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
@@ -158,7 +163,7 @@ class _CountryScreenState extends State<CountryScreen> {
     );
   }
 
-  Future<List<Country>> _loadCountries() async {
+  Future<List<CountryFullData>> _loadCountries() async {
     try {
       CountryDao countryDao = CountryDao();
       List<Country> countries = await countryDao.list();
@@ -169,7 +174,29 @@ class _CountryScreenState extends State<CountryScreen> {
         }
       }
 
-      return countries;
+      List<CountryData> countriesFromJson = (await countriesJson);
+
+      List<CountryFullData> countriesFullData = countries.map((country) {
+        CountryData? foundCountryData = countriesFromJson.firstWhere(
+            (coutntryFromJson) =>
+                coutntryFromJson.commonName.toLowerCase() ==
+                country.name.toLowerCase());
+
+        return CountryFullData(
+            id: country.id,
+            insertDateTime: country.insertDateTime,
+            name: country.name,
+            numberOfChilds: country.numberOfChilds,
+            capital: foundCountryData.capital,
+            region: foundCountryData.region,
+            subregion: foundCountryData.subregion,
+            languages: foundCountryData.languages,
+            latlng: foundCountryData.latlng,
+            currencies: foundCountryData.currencies,
+            cca2: foundCountryData.cca2);
+      }).toList();
+
+      return countriesFullData;
     } catch (err) {
       print(err);
       return [];
@@ -177,7 +204,7 @@ class _CountryScreenState extends State<CountryScreen> {
   }
 
   Widget _countriesBuilder(
-      BuildContext ctx, AsyncSnapshot<List<Country>> snapshot) {
+      BuildContext ctx, AsyncSnapshot<List<CountryFullData>> snapshot) {
     if (snapshot.hasData) {
       if (snapshot.data!.isEmpty) {
         return Column(
@@ -209,11 +236,21 @@ class _CountryScreenState extends State<CountryScreen> {
                 _goToRegions(snapshot.data![index]);
               },
               child: ListTile(
-                leading: const Icon(Icons.square),
+                leading: Image.asset(
+                  "assets/images/flags/${snapshot.data![index].cca2.toLowerCase()}.png",
+                  width: 48,
+                ),
                 title: Text(
                   snapshot.data![index].name,
                 ),
-                subtitle: const Text("Nation"),
+                subtitle: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                          "Nation of ${snapshot.data![index].region} (${snapshot.data![index].subregion}), capital ${snapshot.data![index].capital}, languages ${snapshot.data![index].languages.map((e) => e.value).join()}, currencies ${snapshot.data![index].currencies.map((e) => e.value).join()}"),
+                    ),
+                  ],
+                ),
                 trailing: Text(
                   "(${snapshot.data![index].numberOfChilds.toString()})",
                 ),
@@ -282,8 +319,8 @@ class _CountryScreenState extends State<CountryScreen> {
           await _insertPin(pin);
         } catch (err) {
           ScaffoldMessenger.of(context).clearSnackBars();
-          ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(content: Text("Something went wrong")));
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Something went wrong")));
         }
       }
       ScaffoldMessenger.of(context).clearSnackBars();
@@ -403,7 +440,7 @@ class _CountryScreenState extends State<CountryScreen> {
             child: Column(
               children: [
                 Expanded(
-                  child: FutureBuilder<List<Country>>(
+                  child: FutureBuilder<List<CountryFullData>>(
                     future: _loadCountries(),
                     builder: _countriesBuilder,
                   ),

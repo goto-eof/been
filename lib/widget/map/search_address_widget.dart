@@ -29,7 +29,6 @@ class _SearchAddressWidgetState extends State<SearchAddressWidget> {
         var response = await http.get(Uri.parse(url));
         var decodedResponse =
             jsonDecode(utf8.decode(response.bodyBytes)) as List<dynamic>;
-        debugPrint(utf8.decode(response.bodyBytes));
 
         setState(() {
           _options = decodedResponse
