@@ -1,4 +1,5 @@
 import 'package:been/dao/pin_dao.dart.dart';
+import 'package:been/model/country_capital.dart';
 import 'package:been/model/key_value.dart';
 import 'package:been/util/capitals_util.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +15,8 @@ class TotalCapitalsInfoWidget {
 
   Future<KeyValue<int, int>> _readCapitalsJson() async {
     await CapitalsUtil().loadCountriesData();
-    List<KeyValue<String, String>> result =
-        await CapitalsUtil().loadCountries();
+    List<CountryCapital> result =
+        await CapitalsUtil().loadIndependentCountriesAndThemCapitals();
     Set<String> allCapitals = result
         .where((element) => element.value != null)
         .map((e) => e.value!.toLowerCase())

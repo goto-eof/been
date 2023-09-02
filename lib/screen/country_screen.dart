@@ -5,16 +5,15 @@ import 'package:been/dao/city_dao.dart';
 import 'package:been/dao/country_dao.dart';
 import 'package:been/dao/pin_dao.dart.dart';
 import 'package:been/dao/district_dao.dart';
-import 'package:been/model/city.dart';
 import 'package:been/model/country.dart';
 import 'package:been/model/country_data.dart';
 import 'package:been/model/country_full_data.dart';
 import 'package:been/model/pin.dart';
-import 'package:been/model/district.dart';
 import 'package:been/screen/pin_retriever_screen.dart';
 import 'package:been/screen/district_screen.dart';
 import 'package:been/service/export/file_content_generator.dart';
 import 'package:been/service/import/file_content_loader.dart';
+import 'package:been/service/pin_service.dart';
 import 'package:been/util/capitals_util.dart';
 import 'package:been/widget/info_widget/count_cities_info_widget.dart';
 import 'package:been/widget/info_widget/count_countries_info_widget.dart';
@@ -40,6 +39,13 @@ class CountryScreen extends StatefulWidget {
 class _CountryScreenState extends State<CountryScreen> {
   static final countriesJson = CapitalsUtil().loadCountriesData();
 
+  @override
+  initState() {
+    super.initState();
+
+    //PinService().demoData();
+  }
+
   _chooseAPlace() async {
     Pin? pin =
         await Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
@@ -47,75 +53,13 @@ class _CountryScreenState extends State<CountryScreen> {
     }));
     if (pin != null) {
       try {
-        await _insertPin(pin);
+        await PinService().insertPin(pin);
         setState(() {});
       } catch (err) {
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("Something went wrong: $err")));
       }
     }
-  }
-
-  Future<void> _insertPin(Pin pin) async {
-    int countryId = await _insertOrRetrieveCountryId(pin);
-
-    int regionId = await _insertOrRetrieveRegionId(pin, countryId);
-
-    int cityId = await _insertOrRetrieveCityId(pin, regionId);
-
-    await _insertOrRetrievePinId(pin, cityId);
-  }
-
-  Future<void> _insertOrRetrievePinId(Pin pin, int cityId) async {
-    PinDao pinDao = PinDao();
-    Pin? existingPin = await pinDao.getByLatLong(pin.latitude, pin.longitude);
-
-    if (existingPin != null) {
-      return;
-    }
-    pin.cityId = cityId;
-    await pinDao.insert(pin);
-  }
-
-  Future<int> _insertOrRetrieveCityId(Pin pin, int regionId) async {
-    CityDao cityDao = CityDao();
-    City? existingCity =
-        await cityDao.getByCityNameAndRegionId(pin.city!, regionId);
-    if (existingCity != null) {
-      return existingCity.id!;
-    }
-
-    City city = City(name: pin.cityName, regionId: regionId, numberOfChilds: 0);
-    int cityId = await cityDao.insert(city);
-    return cityId;
-  }
-
-  Future<int> _insertOrRetrieveRegionId(Pin pin, int countryId) async {
-    DistrictDao regionDao = DistrictDao();
-
-    District? existingRegion =
-        await regionDao.getByRegionNameAndCountryId(pin.regionName, countryId);
-
-    if (existingRegion != null) {
-      return existingRegion.id!;
-    }
-
-    District region =
-        District(name: pin.regionName, countryId: countryId, numberOfChilds: 0);
-    int regionId = await regionDao.insert(region);
-    return regionId;
-  }
-
-  Future<int> _insertOrRetrieveCountryId(Pin pin) async {
-    CountryDao countryDao = CountryDao();
-
-    Country? existingCountry = await countryDao.getByName(pin.countryName);
-    if (existingCountry != null) {
-      return existingCountry.id!;
-    }
-    Country country = Country(name: pin.countryName, numberOfChilds: 0);
-    int countryId = await countryDao.insert(country);
-    return countryId;
   }
 
   _goToRegions(Country country) async {
@@ -316,7 +260,7 @@ class _CountryScreenState extends State<CountryScreen> {
           .convertToList(result.files[0].path!, ImportFileType.csv);
       for (Pin pin in pins) {
         try {
-          await _insertPin(pin);
+          await PinService().insertPin(pin);
         } catch (err) {
           ScaffoldMessenger.of(context).clearSnackBars();
           ScaffoldMessenger.of(context).showSnackBar(

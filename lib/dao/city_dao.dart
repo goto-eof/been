@@ -146,4 +146,10 @@ class CityDao {
       throw DaoException(cause: err.toString());
     }
   }
+
+  void truncate() async {
+    DB db = DB();
+    final database = await db.getDatabaseConnection();
+    await database.execute("delete from city");
+  }
 }
