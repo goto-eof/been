@@ -1,6 +1,8 @@
 import 'package:been/dao/district_dao.dart';
+import 'package:been/dao/pin_dao.dart.dart';
 import 'package:been/model/country_full_data.dart';
 import 'package:been/model/district.dart';
+import 'package:been/model/key_value.dart';
 import 'package:been/model/pin.dart';
 import 'package:been/screen/city_screen.dart';
 import 'package:been/widget/map/map_widget.dart';
@@ -17,7 +19,12 @@ class DistrictScreen extends StatefulWidget {
 }
 
 class _DistrictScreenState extends State<DistrictScreen> {
-  Future<List<District>> _retrieveRegions() async {
+  @override
+  initState() {
+    super.initState();
+  }
+
+  Future<KeyValue<List<District>, List<Pin>>> _retrieveRegions() async {
     final String countryName = widget.country.name;
     try {
       DistrictDao regionDao = DistrictDao();
@@ -27,16 +34,20 @@ class _DistrictScreenState extends State<DistrictScreen> {
         int countCities = await regionDao.getCitiesCount(region.id!);
         region.numberOfChilds = countCities;
       }
-
-      return regions;
+      List<Pin> pins = await PinDao().byCountry(widget.country.id!);
+      return KeyValue<List<District>, List<Pin>>(key: regions, value: pins);
     } catch (err) {
       print(err);
-      return [];
+      return KeyValue(key: [], value: []);
     }
   }
 
-  Widget _builder(context, snapshot) {
+  Widget _builder(
+      context, AsyncSnapshot<KeyValue<List<District>, List<Pin>>> snapshot) {
     if (snapshot.hasData) {
+      List<District> districts = snapshot.data!.key;
+      List<Pin> pins = snapshot.data!.value!;
+
       Pin pin = Pin(
           longitude: widget.country.latlng[1],
           latitude: widget.country.latlng[0],
@@ -64,7 +75,7 @@ class _DistrictScreenState extends State<DistrictScreen> {
                       children: [
                         MapWidget(
                           zoom: 5,
-                          markers: [pin],
+                          markers: pins,
                           currentPosition: pin,
                         ),
                       ],
@@ -110,7 +121,7 @@ class _DistrictScreenState extends State<DistrictScreen> {
                             await Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => CityScreen(
-                                  region: snapshot.data[index],
+                                  region: districts[index],
                                 ),
                               ),
                             );
@@ -120,16 +131,16 @@ class _DistrictScreenState extends State<DistrictScreen> {
                             leading: const Icon(Icons.square),
                             subtitle: const Text("District"),
                             title: Text(
-                              snapshot.data![index].name,
+                              districts[index].name,
                             ),
                             trailing: Text(
-                              "(${snapshot.data![index].numberOfChilds.toString()})",
+                              "(${districts[index].numberOfChilds.toString()})",
                             ),
                           ),
                         ),
                       );
                     },
-                    itemCount: snapshot.data!.length,
+                    itemCount: districts.length,
                   ),
                 ),
               ],

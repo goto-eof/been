@@ -21,6 +21,36 @@ class PinDao {
     }
   }
 
+  Future<List<Pin>> byCountry(int countryId) async {
+    try {
+      DB db = DB();
+      final database = await db.getDatabaseConnection();
+
+      final List<Map<String, dynamic>> maps = await database.rawQuery(
+          "select c.name as city, r.name as region, co.name as country, p.id, p.name, p.insert_date_time, p.city_id, p.latitude, p.longitude, p.address from pin as p, city as c, region as r, country as co where p.city_id = c.id and c.region_id = r.id and r.country_id = co.id and co.id = ?",
+          [countryId]);
+
+      return List.generate(
+        maps.length,
+        (i) {
+          return Pin(
+            id: maps[i]['id'],
+            cityId: maps[i]["city_id"],
+            name: maps[i]['name'],
+            address: maps[i]["address"],
+            latitude: maps[i]["latitude"],
+            longitude: maps[i]["longitude"],
+            insertDateTime: DateTime.parse(
+              maps[i]['insert_date_time'],
+            ),
+          );
+        },
+      );
+    } catch (err) {
+      throw DaoException(cause: err.toString());
+    }
+  }
+
   Future<List<Pin>> byRegion(final District region) async {
     try {
       DB db = DB();
