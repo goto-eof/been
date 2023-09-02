@@ -22,4 +22,15 @@ class CountryFullData extends Country {
   List<double> latlng;
   Set<KeyValue<String, String>> currencies;
   String cca2;
+
+  CountryFullData.empty()
+      : capital = "",
+        region = "",
+        subregion = "",
+        languages = Set(),
+        latlng = [],
+        currencies = Set(),
+        cca2 = "",
+        super(
+            name: "", numberOfChilds: 0, id: 0, insertDateTime: DateTime.now());
 }

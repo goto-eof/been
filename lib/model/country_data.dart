@@ -24,4 +24,17 @@ class CountryData {
   List<double> latlng;
   Set<KeyValue<String, String>> currencies;
   String cca2;
+
+  CountryData.empty()
+      : commonName = "",
+        officialName = "",
+        tld = "",
+        independent = false,
+        capital = "",
+        region = "",
+        subregion = "",
+        languages = Set(),
+        latlng = [],
+        currencies = Set(),
+        cca2 = "";
 }

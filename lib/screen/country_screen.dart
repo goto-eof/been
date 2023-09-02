@@ -37,6 +37,8 @@ class CountryScreen extends StatefulWidget {
 }
 
 class _CountryScreenState extends State<CountryScreen> {
+  static final countriesJson = CountryUtil().loadCountriesData();
+
   @override
   initState() {
     super.initState();
@@ -117,27 +119,27 @@ class _CountryScreenState extends State<CountryScreen> {
         }
       }
 
-      List<CountryData> countriesFromJson =
-          await CountryUtil().loadCountriesData();
+      List<CountryData> countriesFromJson = (await countriesJson);
 
       List<CountryFullData> countriesFullData = countries.map((country) {
-        CountryData? foundCountryData = countriesFromJson.firstWhere(
-            (coutntryFromJson) =>
+        CountryData? foundCountryData = countriesFromJson
+            .where((coutntryFromJson) =>
                 coutntryFromJson.commonName.toLowerCase() ==
-                country.name.toLowerCase());
-
+                country.name.toLowerCase())
+            .firstOrNull;
+        CountryData dummy = CountryData.empty();
         return CountryFullData(
             id: country.id,
             insertDateTime: country.insertDateTime,
             name: country.name,
             numberOfChilds: country.numberOfChilds,
-            capital: foundCountryData.capital,
-            region: foundCountryData.region,
-            subregion: foundCountryData.subregion,
-            languages: foundCountryData.languages,
-            latlng: foundCountryData.latlng,
-            currencies: foundCountryData.currencies,
-            cca2: foundCountryData.cca2);
+            capital: (foundCountryData ?? dummy).capital,
+            region: (foundCountryData ?? dummy).region,
+            subregion: (foundCountryData ?? dummy).subregion,
+            languages: (foundCountryData ?? dummy).languages,
+            latlng: (foundCountryData ?? dummy).latlng,
+            currencies: (foundCountryData ?? dummy).currencies,
+            cca2: (foundCountryData ?? dummy).cca2);
       }).toList();
 
       return countriesFullData;
