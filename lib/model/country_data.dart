@@ -34,7 +34,7 @@ class CountryData {
         region = "",
         subregion = "",
         languages = Set(),
-        latlng = [],
+        latlng = [0, 0],
         currencies = Set(),
         cca2 = "";
 }
