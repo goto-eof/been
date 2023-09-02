@@ -4,17 +4,17 @@ import 'package:been/model/district.dart';
 import 'package:been/screen/city_screen.dart';
 import 'package:flutter/material.dart';
 
-class RegionScreen extends StatefulWidget {
-  const RegionScreen({super.key, required this.country});
+class DistrictScreen extends StatefulWidget {
+  const DistrictScreen({super.key, required this.country});
   final Country country;
 
   @override
   State<StatefulWidget> createState() {
-    return _RegionScreenState();
+    return _DistrictScreenState();
   }
 }
 
-class _RegionScreenState extends State<RegionScreen> {
+class _DistrictScreenState extends State<DistrictScreen> {
   Future<List<District>> _retrieveRegions() async {
     final String countryName = widget.country.name;
     try {

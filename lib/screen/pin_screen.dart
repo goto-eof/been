@@ -37,12 +37,17 @@ class _PinScreenState extends State<PinScreen> {
                 ),
               );
               if (deleted != null && deleted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("PIN deleted successfully"),
+                  ),
+                );
                 setState(() {});
               }
             },
             child: ListTile(
               leading: const Icon(Icons.square),
-              subtitle: const Text("Pin"),
+              subtitle: const Text("Place"),
               title: Text(
                 snapshot.data[index].address,
               ),

@@ -8,7 +8,23 @@ class PinDetails extends StatelessWidget {
   final Pin pin;
 
   void _deleteItem(BuildContext ctx) async {
-    PinDao().delete(pin.id!).then((value) => Navigator.of(ctx).pop(true));
+    PinDao()
+        .delete(pin.id!)
+        .then(
+          (value) => Navigator.of(ctx).pop(
+            true,
+          ),
+        )
+        .catchError((err) {
+      ScaffoldMessenger.of(ctx).showSnackBar(
+        SnackBar(
+          content: Text("Something went wrong: $err"),
+        ),
+      );
+      Navigator.of(ctx).pop(
+        false,
+      );
+    });
   }
 
   @override

@@ -8,11 +8,11 @@ const urlTemplate = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 class MapWidget extends StatefulWidget {
   const MapWidget(
       {super.key,
-      required this.currentPosition,
+      this.currentPosition,
       this.setUpdateMapCallback,
       this.zoom,
       this.markers});
-  final Pin currentPosition;
+  final Pin? currentPosition;
   final List<Pin>? markers;
   final double? zoom;
   final Function(Function(Pin pin) function)? setUpdateMapCallback;
@@ -55,8 +55,10 @@ class MapWidgetState extends State<MapWidget> {
       child: SizedBox(
         child: FlutterMap(
           options: MapOptions(
-              center: LatLng(widget.currentPosition.latitude,
-                  widget.currentPosition.longitude),
+              center: widget.currentPosition != null
+                  ? LatLng(widget.currentPosition!.latitude,
+                      widget.currentPosition!.longitude)
+                  : null,
               zoom: widget.zoom ?? 2.0,
               maxZoom: 18,
               minZoom: 1),

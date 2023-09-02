@@ -7,7 +7,7 @@ import 'package:been/model/country.dart';
 import 'package:been/model/pin.dart';
 import 'package:been/model/district.dart';
 import 'package:been/screen/pin_retriever_screen.dart';
-import 'package:been/screen/region_screen.dart';
+import 'package:been/screen/district_screen.dart';
 import 'package:been/widget/info_widget/count_cities_info_widget.dart';
 import 'package:been/widget/info_widget/count_countries_info_widget.dart';
 import 'package:been/widget/info_widget/count_districts_info_widget.dart';
@@ -16,7 +16,7 @@ import 'package:been/widget/info_widget/total_countries_info_widget.dart';
 import 'package:been/widget/map/map_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:been/widget/about_dialog.dart' as BeenAboutDialog;
+import 'package:been/widget/about_dialog.dart' as been_about_dialog;
 
 class CountryScreen extends StatefulWidget {
   const CountryScreen({super.key});
@@ -44,7 +44,8 @@ class _CountryScreenState extends State<CountryScreen> {
         await _insertOrRetrievePinId(pin, cityId);
         setState(() {});
       } catch (err) {
-        print(err);
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Something went wrong: $err")));
       }
     }
   }
@@ -104,34 +105,38 @@ class _CountryScreenState extends State<CountryScreen> {
   _goToRegions(Country country) async {
     await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => RegionScreen(
+        builder: (context) => DistrictScreen(
           country: country,
         ),
       ),
     );
 
-    List<int> citiesIdsToDelete = await CityDao().retrieveCitiesToDelete();
-    for (final int id in citiesIdsToDelete) {
-      await CityDao().delete(id);
-    }
+    try {
+      List<int> citiesIdsToDelete = await CityDao().retrieveCitiesToDelete();
+      for (final int id in citiesIdsToDelete) {
+        await CityDao().delete(id);
+      }
 
-    List<int> districtIdsToDelete =
-        await DistrictDao().retrieveDistrictsToDelete();
-    for (final int id in districtIdsToDelete) {
-      await DistrictDao().delete(id);
-    }
+      List<int> districtIdsToDelete =
+          await DistrictDao().retrieveDistrictsToDelete();
+      for (final int id in districtIdsToDelete) {
+        await DistrictDao().delete(id);
+      }
 
-    List<int> countriesIdsToDelete =
-        await CountryDao().retrieveCountriesToDelete();
-    for (final int id in countriesIdsToDelete) {
-      await CountryDao().delete(id);
+      List<int> countriesIdsToDelete =
+          await CountryDao().retrieveCountriesToDelete();
+      for (final int id in countriesIdsToDelete) {
+        await CountryDao().delete(id);
+      }
+    } catch (err) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Something went wrong: $err")));
     }
-
     setState(() {});
   }
 
   Widget _aboutDialogBuilder(BuildContext context, final String version) {
-    return BeenAboutDialog.AboutDialog(
+    return been_about_dialog.AboutDialog(
       applicationName: "Been!",
       applicationSnapName: "been",
       applicationIcon: SizedBox(
@@ -220,9 +225,14 @@ class _CountryScreenState extends State<CountryScreen> {
   }
 
   Future<List<Pin>> _mapMarkers() async {
-    List<Pin> pins = await PinDao().listAll();
-    debugPrint("Updateting pins: $pins");
-    return pins;
+    try {
+      List<Pin> pins = await PinDao().listAll();
+      return pins;
+    } catch (err) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Something went wrong: $err")));
+    }
+    return [];
   }
 
   Widget _mapBuilder(BuildContext ctx, AsyncSnapshot<List<Pin>> snapshot) {

@@ -13,7 +13,7 @@ class MapDirectorWidget extends StatefulWidget {
 }
 
 class _MapDirectorWidgetState extends State<MapDirectorWidget> {
-  Pin currentPosition = Pin(longitude: 0, latitude: 0, address: "Unknown");
+  Pin? currentPosition;
   Function(Pin pin)? updateMapCallback;
 
   void _setPin(Pin pin) {
