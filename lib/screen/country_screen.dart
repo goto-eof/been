@@ -14,7 +14,7 @@ import 'package:been/screen/district_screen.dart';
 import 'package:been/service/export/file_content_generator.dart';
 import 'package:been/service/import/file_content_loader.dart';
 import 'package:been/service/pin_service.dart';
-import 'package:been/util/capitals_util.dart';
+import 'package:been/util/country_util.dart';
 import 'package:been/widget/info_widget/count_cities_info_widget.dart';
 import 'package:been/widget/info_widget/count_countries_info_widget.dart';
 import 'package:been/widget/info_widget/count_districts_info_widget.dart';
@@ -37,7 +37,7 @@ class CountryScreen extends StatefulWidget {
 }
 
 class _CountryScreenState extends State<CountryScreen> {
-  static final countriesJson = CapitalsUtil().loadCountriesData();
+  static final countriesJson = CountryUtil().loadCountriesData();
 
   @override
   initState() {
@@ -191,7 +191,7 @@ class _CountryScreenState extends State<CountryScreen> {
                   children: [
                     Expanded(
                       child: Text(
-                          "Nation of ${snapshot.data![index].region} (${snapshot.data![index].subregion}), capital ${snapshot.data![index].capital}, languages ${snapshot.data![index].languages.map((e) => e.value).join()}, currencies ${snapshot.data![index].currencies.map((e) => e.value).join()}"),
+                          "Nation of ${snapshot.data![index].region} (${snapshot.data![index].subregion}), capital ${snapshot.data![index].capital}, languages ${snapshot.data![index].languages.map((e) => e.value).join(", ")}, currencies ${snapshot.data![index].currencies.map((e) => e.value).join(", ")}"),
                     ),
                   ],
                 ),

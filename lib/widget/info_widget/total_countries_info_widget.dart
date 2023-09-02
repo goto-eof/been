@@ -1,7 +1,7 @@
 import 'package:been/dao/country_dao.dart';
 import 'package:been/model/country_capital.dart';
 import 'package:been/model/key_value.dart';
-import 'package:been/util/capitals_util.dart';
+import 'package:been/util/country_util.dart';
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 
@@ -15,7 +15,7 @@ class TotalCountriesInfoWidget {
 
   Future<KeyValue<int, int>> _totalCountriesCount() async {
     List<CountryCapital> capitals =
-        await CapitalsUtil().loadIndependentCountriesAndThemCapitals();
+        await CountryUtil().loadIndependentCountriesAndThemCapitals();
     int countriesBeen = await CountryDao().count();
     return KeyValue(key: capitals.length, value: countriesBeen);
   }

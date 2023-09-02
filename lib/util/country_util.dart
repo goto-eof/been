@@ -5,7 +5,7 @@ import 'package:been/model/country_data.dart';
 import 'package:been/model/key_value.dart';
 import 'package:flutter/services.dart';
 
-class CapitalsUtil {
+class CountryUtil {
   // Future<List<KeyValue<String, String>>> loadCapitals() async {
   //   final String response =
   //       await rootBundle.loadString('assets/json/capitals.geojson');

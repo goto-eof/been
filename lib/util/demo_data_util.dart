@@ -5,7 +5,7 @@ import 'package:been/dao/pin_dao.dart.dart';
 import 'package:been/model/country_data.dart';
 import 'package:been/model/pin.dart';
 import 'package:been/service/pin_service.dart';
-import 'package:been/util/capitals_util.dart';
+import 'package:been/util/country_util.dart';
 
 class DemoDataUtil {
   void _demoData() async {
@@ -14,7 +14,7 @@ class DemoDataUtil {
     DistrictDao().truncate();
     CountryDao().truncate();
 
-    List<CountryData> data = await CapitalsUtil().loadCountriesData();
+    List<CountryData> data = await CountryUtil().loadCountriesData();
     data.where((element) => element.independent).forEach((country) async {
       await PinService().insertPin(
         Pin(
