@@ -82,6 +82,23 @@ class CountryDao {
     }
   }
 
+  Future<List<int>> retrieveCountriesToDelete() async {
+    try {
+      DB db = DB();
+      final database = await db.getDatabaseConnection();
+
+      final List<Map<String, dynamic>> maps = await database.rawQuery(
+          "select distinct c.id as id from country as c where NOT EXISTS (select d.id from region d where d.country_id = c.id)");
+
+      if (maps.isEmpty) {
+        return [];
+      }
+      return maps.map((e) => e["id"] as int).toList();
+    } catch (err) {
+      throw DaoException(cause: err.toString());
+    }
+  }
+
   Future<List<Country>> list() async {
     try {
       DB db = DB();

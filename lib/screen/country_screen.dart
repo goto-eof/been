@@ -103,6 +103,24 @@ class _CountryScreenState extends State<CountryScreen> {
         ),
       ),
     );
+
+    List<int> citiesIdsToDelete = await CityDao().retrieveCitiesToDelete();
+    for (final int id in citiesIdsToDelete) {
+      await CityDao().delete(id);
+    }
+
+    List<int> districtIdsToDelete =
+        await DistrictDao().retrieveDistrictsToDelete();
+    for (final int id in districtIdsToDelete) {
+      await DistrictDao().delete(id);
+    }
+
+    List<int> countriesIdsToDelete =
+        await CountryDao().retrieveCountriesToDelete();
+    for (final int id in countriesIdsToDelete) {
+      await CountryDao().delete(id);
+    }
+
     setState(() {});
   }
 

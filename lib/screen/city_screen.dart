@@ -56,7 +56,7 @@ class _CityScreenStatus extends State<CityScreen> {
     CityDao cityDao = CityDao();
     List<City> cities = await cityDao.byRegion(widget.region);
     for (City city in cities) {
-      int numberOfPlaces = await cityDao.getPins(city.id!);
+      int numberOfPlaces = await cityDao.countPins(city.id!);
       city.numberOfChilds = numberOfPlaces;
     }
     return cities;

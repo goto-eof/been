@@ -64,7 +64,7 @@ class CityDao {
     }
   }
 
-  Future<int> getPins(final int cityId) async {
+  Future<int> countPins(final int cityId) async {
     try {
       DB db = DB();
       final database = await db.getDatabaseConnection();
@@ -77,6 +77,23 @@ class CityDao {
         return 0;
       }
       return maps[0]["num"];
+    } catch (err) {
+      throw DaoException(cause: err.toString());
+    }
+  }
+
+  Future<List<int>> retrieveCitiesToDelete() async {
+    try {
+      DB db = DB();
+      final database = await db.getDatabaseConnection();
+
+      final List<Map<String, dynamic>> maps = await database.rawQuery(
+          "select distinct c.id as id from city as c where NOT EXISTS (select p.id from pin p where p.city_id = c.id)");
+
+      if (maps.isEmpty) {
+        return [];
+      }
+      return maps.map((e) => e["id"] as int).toList();
     } catch (err) {
       throw DaoException(cause: err.toString());
     }

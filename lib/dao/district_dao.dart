@@ -39,6 +39,23 @@ class DistrictDao {
     }
   }
 
+  Future<List<int>> retrieveDistrictsToDelete() async {
+    try {
+      DB db = DB();
+      final database = await db.getDatabaseConnection();
+
+      final List<Map<String, dynamic>> maps = await database.rawQuery(
+          "select distinct d.id as id from region as d where NOT EXISTS (select c.id from city c where c.region_id = d.id)");
+
+      if (maps.isEmpty) {
+        return [];
+      }
+      return maps.map((e) => e["id"] as int).toList();
+    } catch (err) {
+      throw DaoException(cause: err.toString());
+    }
+  }
+
   Future<int> getCitiesCount(final int regionId) async {
     try {
       DB db = DB();
