@@ -76,9 +76,24 @@ class _CityScreenStatus extends State<CityScreen> {
       appBar: AppBar(
         title: Text("${widget.country.name} > ${widget.region.name}"),
       ),
-      body: FutureBuilder<List<City>>(
-        builder: _builder,
-        future: _future(),
+      body: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Expanded(
+              child: Column(
+            children: [
+              CommonWrappers.infoPane(CountPinsInfoWidget()
+                  .pinsWidget(districtId: widget.region.id)),
+            ],
+          )),
+          Expanded(
+            child: FutureBuilder<List<City>>(
+              builder: _builder,
+              future: _future(),
+            ),
+          ),
+        ],
       ),
     );
   }
