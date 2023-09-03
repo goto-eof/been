@@ -4,7 +4,9 @@ import 'package:been/model/country_full_data.dart';
 import 'package:been/model/district.dart';
 import 'package:been/screen/common_wrappers.dart';
 import 'package:been/screen/pin_screen.dart';
+import 'package:been/widget/info_widget/count_cities_info_widget.dart';
 import 'package:been/widget/info_widget/count_pins_info_widget.dart';
+import 'package:been/widget/map/map_widget.dart';
 import 'package:flutter/material.dart';
 
 class CityScreen extends StatefulWidget {
@@ -81,16 +83,37 @@ class _CityScreenStatus extends State<CityScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Expanded(
-              child: Column(
-            children: [
-              CommonWrappers.infoPane(CountPinsInfoWidget()
-                  .pinsWidget(districtId: widget.region.id)),
-            ],
-          )),
+              flex: 1,
+              child: GridView(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 3 / 2,
+                  crossAxisSpacing: 1,
+                  mainAxisSpacing: 1,
+                ),
+                children: [
+                  CommonWrappers.infoPane(CountCitiesInfoWidget()
+                      .citiesWidget(districtId: widget.region.id)),
+                  CommonWrappers.infoPane(CountPinsInfoWidget()
+                      .pinsWidget(districtId: widget.region.id)),
+                ],
+              )),
           Expanded(
-            child: FutureBuilder<List<City>>(
-              builder: _builder,
-              future: _future(),
+            flex: 1,
+            child: Column(
+              children: [
+                Text(
+                  "Cities/Counties",
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                      color: Theme.of(context).colorScheme.onBackground),
+                ),
+                Expanded(
+                  child: FutureBuilder<List<City>>(
+                    builder: _builder,
+                    future: _future(),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

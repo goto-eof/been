@@ -2,11 +2,16 @@ import 'package:been/dao/city_dao.dart';
 import 'package:flutter/material.dart';
 
 class CountCitiesInfoWidget {
-  Widget citiesWidget() {
-    return FutureBuilder(future: _countCities(), builder: _countCitiesBuilder);
+  Widget citiesWidget({int? districtId}) {
+    return FutureBuilder(
+        future: _countCities(districtId: districtId),
+        builder: _countCitiesBuilder);
   }
 
-  Future<int> _countCities() async {
+  Future<int> _countCities({int? districtId}) async {
+    if (districtId != null) {
+      return await CityDao().countByDistrict(districtId);
+    }
     return await CityDao().count();
   }
 

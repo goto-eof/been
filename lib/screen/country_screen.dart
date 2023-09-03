@@ -20,6 +20,7 @@ import 'package:been/widget/info_widget/count_cities_info_widget.dart';
 import 'package:been/widget/info_widget/count_countries_info_widget.dart';
 import 'package:been/widget/info_widget/count_districts_info_widget.dart';
 import 'package:been/widget/info_widget/count_pins_info_widget.dart';
+import 'package:been/widget/info_widget/count_regions_info_widget.dart';
 import 'package:been/widget/info_widget/total_capitals_info_widget.dart';
 import 'package:been/widget/info_widget/total_countries_info_widget.dart';
 import 'package:been/widget/map/map_widget.dart';
@@ -374,6 +375,8 @@ class _CountryScreenState extends State<CountryScreen> {
                           TotalCountriesInfoWidget().pieChartTotalCountries()),
                       CommonWrappers.infoPane(
                           TotalCapitalsInfoWidget().pieChartTotalCapitals()),
+                      CommonWrappers.infoPane(
+                          CountRegionsInfoWidget().regionsWidget()),
                       CommonWrappers.infoPane(
                           CountCountriesInfoWidget().countriesWidget()),
                       CommonWrappers.infoPane(

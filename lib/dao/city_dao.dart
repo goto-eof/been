@@ -116,6 +116,23 @@ class CityDao {
     }
   }
 
+  Future<int> countByDistrict(int districtId) async {
+    try {
+      DB db = DB();
+      final database = await db.getDatabaseConnection();
+
+      final List<Map<String, dynamic>> maps = await database.rawQuery(
+          "select count(1) as num from city where region_id = ?", [districtId]);
+
+      if (maps.isEmpty) {
+        return 0;
+      }
+      return maps[0]["num"];
+    } catch (err) {
+      throw DaoException(cause: err.toString());
+    }
+  }
+
   Future<City?> getByCityNameAndRegionId(
       String regionName, int regionId) async {
     try {
