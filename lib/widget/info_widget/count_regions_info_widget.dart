@@ -12,12 +12,10 @@ class CountRegionsInfoWidget {
   Future<int> _countRegions() async {
     Map<String, String> countryRegionMap = {};
 
-    (await CountryUtil().loadCountriesData()).forEach(
-      (country) {
+    for (var country in (await CountryUtil().loadCountriesData())) {
         countryRegionMap.putIfAbsent(
             country.commonName.toLowerCase(), () => country.region);
-      },
-    );
+      }
 
     List<Country> countries = await CountryDao().list();
 

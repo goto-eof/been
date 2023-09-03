@@ -60,7 +60,7 @@ class _CountryScreenState extends State<CountryScreen> {
         setState(() {});
       } catch (err) {
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("Something went wrong")));
+            .showSnackBar(const SnackBar(content: Text("Something went wrong")));
       }
     }
   }
@@ -93,7 +93,7 @@ class _CountryScreenState extends State<CountryScreen> {
       }
     } catch (err) {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Something went wrong")));
+          .showSnackBar(const SnackBar(content: Text("Something went wrong")));
     }
     setState(() {});
   }
@@ -226,7 +226,7 @@ class _CountryScreenState extends State<CountryScreen> {
       return pins;
     } catch (err) {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Something went wrong")));
+          .showSnackBar(const SnackBar(content: Text("Something went wrong")));
     }
     return [];
   }

@@ -120,7 +120,7 @@ class _DistrictScreenState extends State<DistrictScreen> {
                         crossAxisSpacing: 1,
                         mainAxisSpacing: 1,
                       ),
-                      children: []),
+                      children: const []),
                 ],
               ),
             ),

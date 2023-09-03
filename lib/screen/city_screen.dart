@@ -6,7 +6,6 @@ import 'package:been/screen/common_wrappers.dart';
 import 'package:been/screen/pin_screen.dart';
 import 'package:been/widget/info_widget/count_cities_info_widget.dart';
 import 'package:been/widget/info_widget/count_pins_info_widget.dart';
-import 'package:been/widget/map/map_widget.dart';
 import 'package:flutter/material.dart';
 
 class CityScreen extends StatefulWidget {
