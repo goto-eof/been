@@ -33,8 +33,8 @@ class CountryData {
         capital = "",
         region = "",
         subregion = "",
-        languages = <dynamic>{},
+        languages = Set(),
         latlng = [0, 0],
-        currencies = <dynamic>{},
+        currencies = Set(),
         cca2 = "";
 }

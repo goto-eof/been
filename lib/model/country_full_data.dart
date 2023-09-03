@@ -27,9 +27,9 @@ class CountryFullData extends Country {
       : capital = "",
         region = "",
         subregion = "",
-        languages = <dynamic>{},
+        languages = Set(),
         latlng = [],
-        currencies = <dynamic>{},
+        currencies = Set(),
         cca2 = "",
         super(
             name: "", numberOfChilds: 0, id: 0, insertDateTime: DateTime.now());
