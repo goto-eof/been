@@ -1,12 +1,16 @@
 import 'package:been/dao/city_dao.dart';
 import 'package:been/model/city.dart';
+import 'package:been/model/country_full_data.dart';
 import 'package:been/model/district.dart';
+import 'package:been/screen/common_wrappers.dart';
 import 'package:been/screen/pin_screen.dart';
+import 'package:been/widget/info_widget/count_pins_info_widget.dart';
 import 'package:flutter/material.dart';
 
 class CityScreen extends StatefulWidget {
-  const CityScreen({super.key, required this.region});
+  const CityScreen({super.key, required this.country, required this.region});
   final District region;
+  final CountryFullData country;
 
   @override
   State<StatefulWidget> createState() {
@@ -23,12 +27,16 @@ class _CityScreenStatus extends State<CityScreen> {
     }
     if (snapshot.hasData) {
       return ListView.builder(
+        shrinkWrap: true,
         itemBuilder: (BuildContext ctx, int index) {
           return Card(
             child: InkWell(
               onTap: () async {
                 await Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => PinScreen(city: snapshot.data![index]),
+                  builder: (context) => PinScreen(
+                      city: snapshot.data![index],
+                      district: widget.region,
+                      country: widget.country),
                 ));
                 setState(() {});
               },
@@ -66,7 +74,7 @@ class _CityScreenStatus extends State<CityScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Cities/Counties"),
+        title: Text("${widget.country.name} > ${widget.region.name}"),
       ),
       body: FutureBuilder<List<City>>(
         builder: _builder,

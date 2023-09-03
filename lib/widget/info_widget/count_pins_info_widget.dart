@@ -2,11 +2,23 @@ import 'package:been/dao/pin_dao.dart.dart';
 import 'package:flutter/material.dart';
 
 class CountPinsInfoWidget {
-  Widget pinsWidget() {
-    return FutureBuilder(future: _countPins(), builder: _countPinsBuilder);
+  Widget pinsWidget({int? cityId, int? countryId, int? districtId}) {
+    return FutureBuilder(
+        future: _countPins(
+            cityId: cityId, countryId: countryId, districtId: districtId),
+        builder: _countPinsBuilder);
   }
 
-  Future<int> _countPins() async {
+  Future<int> _countPins({int? cityId, int? countryId, int? districtId}) async {
+    if (cityId != null) {
+      return await PinDao().countByCity(cityId);
+    }
+    if (districtId != null) {
+      return await PinDao().countByDistrict(districtId);
+    }
+    if (countryId != null) {
+      return await PinDao().countByCountry(countryId);
+    }
     return await PinDao().count();
   }
 

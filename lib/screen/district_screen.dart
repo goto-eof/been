@@ -67,7 +67,7 @@ class _DistrictScreenState extends State<DistrictScreen> {
                   Container(
                     padding: const EdgeInsets.only(left: 20, right: 20),
                     width: double.infinity,
-                    height: 300,
+                    height: 400,
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -81,24 +81,46 @@ class _DistrictScreenState extends State<DistrictScreen> {
                       ],
                     ),
                   ),
-                  _keyValueWidget("Country", widget.country.name),
-                  _keyValueWidget(
-                    "Flag",
-                    Image.asset(
-                      width: 32,
-                      "assets/images/flags/${widget.country.cca2.toLowerCase()}.png",
-                    ),
+                  Column(
+                    children: [
+                      _keyValueWidget("Country", widget.country.name),
+                      _keyValueWidget(
+                        "Flag",
+                        Image.asset(
+                          width: 32,
+                          "assets/images/flags/${widget.country.cca2.toLowerCase()}.png",
+                        ),
+                      ),
+                      _keyValueWidget("Capital", widget.country.capital),
+                      _keyValueWidget("CCA2", widget.country.cca2),
+                      _keyValueWidget("Latitude/Longitude",
+                          widget.country.latlng.join(", ")),
+                      _keyValueWidget("Region", widget.country.region),
+                      _keyValueWidget("Subregion", widget.country.subregion),
+                      _keyValueWidget(
+                          "Languages",
+                          widget.country.languages
+                              .map((e) => e.value)
+                              .join(", ")),
+                      _keyValueWidget(
+                        "Currencies",
+                        widget.country.currencies
+                            .map((e) => e.value)
+                            .join(", "),
+                      )
+                    ],
                   ),
-                  _keyValueWidget("Capital", widget.country.capital),
-                  _keyValueWidget("CCA2", widget.country.cca2),
-                  _keyValueWidget(
-                      "Latitude/Longitude", widget.country.latlng.join(", ")),
-                  _keyValueWidget("Region", widget.country.region),
-                  _keyValueWidget("Subregion", widget.country.subregion),
-                  _keyValueWidget("Languages",
-                      widget.country.languages.map((e) => e.value).join(", ")),
-                  _keyValueWidget("Currencies",
-                      widget.country.currencies.map((e) => e.value).join(", ")),
+                  GridView(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 6 / 2,
+                        crossAxisSpacing: 1,
+                        mainAxisSpacing: 1,
+                      ),
+                      children: []),
                 ],
               ),
             ),
@@ -124,8 +146,8 @@ class _DistrictScreenState extends State<DistrictScreen> {
                             await Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => CityScreen(
-                                  region: districts[index],
-                                ),
+                                    region: districts[index],
+                                    country: widget.country),
                               ),
                             );
                             setState(() {});

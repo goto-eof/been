@@ -9,6 +9,7 @@ import 'package:been/model/country.dart';
 import 'package:been/model/country_data.dart';
 import 'package:been/model/country_full_data.dart';
 import 'package:been/model/pin.dart';
+import 'package:been/screen/common_wrappers.dart';
 import 'package:been/screen/pin_retriever_screen.dart';
 import 'package:been/screen/district_screen.dart';
 import 'package:been/service/export/file_content_generator.dart';
@@ -369,14 +370,18 @@ class _CountryScreenState extends State<CountryScreen> {
                       mainAxisSpacing: 1,
                     ),
                     children: [
-                      _infoPane(
+                      CommonWrappers.infoPane(
                           TotalCountriesInfoWidget().pieChartTotalCountries()),
-                      _infoPane(
+                      CommonWrappers.infoPane(
                           TotalCapitalsInfoWidget().pieChartTotalCapitals()),
-                      _infoPane(CountCountriesInfoWidget().countriesWidget()),
-                      _infoPane(CountDistrictsInfoWidget().districtsWidget()),
-                      _infoPane(CountCitiesInfoWidget().citiesWidget()),
-                      _infoPane(CountPinsInfoWidget().pinsWidget()),
+                      CommonWrappers.infoPane(
+                          CountCountriesInfoWidget().countriesWidget()),
+                      CommonWrappers.infoPane(
+                          CountDistrictsInfoWidget().districtsWidget()),
+                      CommonWrappers.infoPane(
+                          CountCitiesInfoWidget().citiesWidget()),
+                      CommonWrappers.infoPane(
+                          CountPinsInfoWidget().pinsWidget()),
                     ],
                   ),
                 )
@@ -404,26 +409,6 @@ class _CountryScreenState extends State<CountryScreen> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _infoPane(Widget child) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          gradient: const LinearGradient(
-            end: Alignment.bottomRight,
-            begin: Alignment.topLeft,
-            colors: [
-              Color.fromARGB(28, 179, 179, 179),
-              Color.fromARGB(32, 206, 206, 206)
-            ],
-          ),
-        ),
-        child: child,
       ),
     );
   }

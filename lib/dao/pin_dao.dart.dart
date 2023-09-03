@@ -131,6 +131,60 @@ class PinDao {
     }
   }
 
+  Future<int> countByCity(int cityId) async {
+    try {
+      DB db = DB();
+      final database = await db.getDatabaseConnection();
+
+      final List<Map<String, dynamic>> maps = await database.rawQuery(
+          "select count(1) as num from pin where city_id = ?", [cityId]);
+
+      if (maps.isEmpty) {
+        return 0;
+      }
+      return maps[0]["num"];
+    } catch (err) {
+      throw DaoException(cause: err.toString());
+    }
+  }
+
+  Future<int> countByCountry(int countryId) async {
+    try {
+      DB db = DB();
+      final database = await db.getDatabaseConnection();
+
+      final List<Map<String, dynamic>> maps = await database.rawQuery(
+          "select count(1) as num from pin as p,  city as c, region as r where  p.city_id = c.id and c.region_id = r.id and r.country_id = ?",
+          [countryId]);
+
+      if (maps.isEmpty) {
+        return 0;
+      }
+      return maps[0]["num"];
+    } catch (err) {
+      throw DaoException(cause: err.toString());
+    }
+  }
+
+  Future<int> countByDistrict(int districtId) async {
+    try {
+      DB db = DB();
+      final database = await db.getDatabaseConnection();
+
+      final List<Map<String, dynamic>> maps = await database.rawQuery(
+          "select count(1) as num from pin as p, city as c, region as r where p.city_id = c.id and c.region_id = r.id and r.id = ?",
+          [districtId]);
+      print(maps);
+      if (maps.isEmpty) {
+        return 0;
+      }
+      return maps[0]["num"];
+    } catch (err) {
+      print("$err");
+      throw DaoException(cause: err.toString());
+    }
+  }
+
   Future<int> count() async {
     try {
       DB db = DB();

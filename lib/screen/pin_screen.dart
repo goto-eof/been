@@ -1,12 +1,20 @@
 import 'package:been/dao/pin_dao.dart.dart';
 import 'package:been/model/city.dart';
+import 'package:been/model/country_full_data.dart';
+import 'package:been/model/district.dart';
 import 'package:been/model/pin.dart';
 import 'package:been/screen/pin_details.dart';
 import 'package:flutter/material.dart';
 
 class PinScreen extends StatefulWidget {
-  const PinScreen({super.key, required this.city});
+  const PinScreen(
+      {super.key,
+      required this.city,
+      required this.district,
+      required this.country});
   final City city;
+  final District district;
+  final CountryFullData country;
   @override
   State<StatefulWidget> createState() {
     return _PinScreenState();
@@ -65,7 +73,8 @@ class _PinScreenState extends State<PinScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Places"),
+        title: Text(
+            "${widget.country.name} > ${widget.district.name} > ${widget.city.name}"),
       ),
       body: FutureBuilder<List<Pin>>(
         builder: _builder,
